@@ -9,27 +9,36 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        var _inputReader = new InputReader(new PlayerInput());
+        var _inputReader = new InputReader(new PlayerInput(), 0f);
 
         var _idleState = new IdleState();
         var _moveState = new MoveState(_inputReader, transform);
         var _jumpState = new JumpState();
-        //var _rollState = new RollingState(); todo
-        //var _playerAttack = new AttackState();
+        var _rollState = new RollingState();
+        var _attackState = new AttackState();
 
         _stateMachine = new StateMachine(_idleState);
 
-        _stateMachine.AddAnyTransition(_moveState, IsRunning());
+        _stateMachine.AddAnyTransition(_moveState, IsMoving());
+        _stateMachine.AddAnyTransition(_idleState, IsIdle());
 
-        SetupTransition(_idleState, _moveState, IsRunning());
+        AddTran(_moveState, _jumpState, IsJumping());
+        AddTran(_moveState, _attackState, IsAttacking());
+        AddTran(_moveState, _rollState, IsRolling());
 
-        void SetupTransition(IState to, IState from, Func<bool> condition) => _stateMachine.AddTransition(to, from, condition);
+        AddTran(_idleState, _jumpState, IsJumping());
+        AddTran(_idleState, _attackState, IsAttacking());
+        AddTran(_idleState, _rollState, IsRolling());
 
-        Func<bool> IsRunning() => () => _inputReader.RunToggled && _inputReader.MoveVector != Vector3.zero && _isGrounded;
-        Func<bool> IsWalking() => () => !_inputReader.RunToggled && _inputReader.MoveVector != Vector3.zero && _isGrounded;
+        AddTran(_jumpState, _attackState, IsAttacking());
+
+        void AddTran(IState to, IState from, Func<bool> condition) => _stateMachine.AddTransition(to, from, condition);
+
+        Func<bool> IsMoving() => () => _inputReader.MoveVector != Vector3.zero && _isGrounded;
         Func<bool> IsIdle() => () => _inputReader.MoveVector == Vector3.zero && _isGrounded;
         Func<bool> IsJumping() => () => !_isGrounded;
-       // Func<bool> 
+        Func<bool> IsAttacking() => () => false;
+        Func<bool> IsRolling() => () => _inputReader.IsRolling;
     }
 
     private void Update()
