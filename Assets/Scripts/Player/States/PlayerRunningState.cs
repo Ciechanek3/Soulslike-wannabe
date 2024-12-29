@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement
+public class PlayerRunningState : IState
 {
     private InputReader _inputReader;
     private Transform _playerTransform;
@@ -15,7 +15,7 @@ public class PlayerMovement
     {
         _speedMultiplier += value;
     }
-    public PlayerMovement(InputReader inputReader, Transform playerTransform)
+    public PlayerRunningState(InputReader inputReader, Transform playerTransform)
     {
         _inputReader = inputReader;
         _playerTransform = playerTransform;
@@ -26,4 +26,18 @@ public class PlayerMovement
         _playerTransform.Translate(_inputReader.MoveInput * Time.deltaTime * GetSpeed);
     }
 
+    public void Tick()
+    {
+        
+    }
+
+    public void OnEnter()
+    {
+        
+    }
+
+    public void OnExit()
+    {
+        
+    }
 }

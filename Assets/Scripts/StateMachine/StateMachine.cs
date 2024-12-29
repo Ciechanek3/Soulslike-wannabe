@@ -13,6 +13,11 @@ public class StateMachine
 
     private static List<Transition> EmptyTransitions = new List<Transition>(0);
 
+    public StateMachine(IState startingState)
+    {
+        _currentState = startingState;
+    }
+
     public void Tick()
     {
         var transition = GetTransition();

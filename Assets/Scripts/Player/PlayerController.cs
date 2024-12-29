@@ -6,15 +6,21 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private InputReader inputReader;
 
-    private PlayerMovement _playerMovement;
+    private StateMachine _stateMachine;
 
     private void Awake()
     {
-        _playerMovement = new PlayerMovement(inputReader, transform);
+        var _playerIdle = new IdleState();
+        var _playerGroundedState = new PlayerRunningState(inputReader, transform);
+        var _playerJumpState = new PlayerJumpState(inputReader, transform);
+        var _rollingState = new RollingState();
+        var _playerAttack = new AttackState();
+
+        _stateMachine = new StateMachine(_playerIdle);
     }
 
     private void Update()
     {
-        _playerMovement.HandleMovement();
+        _stateMachine.Tick();
     }
 }
