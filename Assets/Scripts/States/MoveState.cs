@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWalkingState : IState
+public class MoveState : IState
 {
+    public MoveState(InputReader input, Transform transform)
+    {
+
+    }
     public void OnEnter()
     {
         throw new System.NotImplementedException();

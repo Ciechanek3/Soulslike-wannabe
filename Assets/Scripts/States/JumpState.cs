@@ -2,14 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerJumpState : IState
+public class JumpState : IState
 {
-    private InputReader _inputReader;
-    private Transform _playerTransform;
-    public PlayerJumpState(InputReader inputReader, Transform playerTransform)
-    {
-
-    }
     public void OnEnter()
     {
         throw new System.NotImplementedException();

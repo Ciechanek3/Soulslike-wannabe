@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleRunning",
+                    "type": "Button",
+                    "id": "ec988da3-9d04-4ebd-a853-a9b3c6d45d80",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -92,7 +101,7 @@
                 {
                     "name": "",
                     "id": "f2279e35-9431-4991-9ab2-a4a481265aaf",
-                    "path": "",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -103,11 +112,22 @@
                 {
                     "name": "",
                     "id": "e0b4b39c-ac45-49cc-8a97-4d18b3f022c1",
-                    "path": "",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "00b76334-ae4d-4b96-ae5f-26e1ee9b89d7",
+                    "path": "<Keyboard>/capsLock",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleRunning",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

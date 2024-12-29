@@ -8,8 +8,8 @@ public class StateMachine
     private IState _currentState;
 
     private Dictionary<Type, List<Transition>> _transitions = new();
-    private List<Transition> _currentTransitions;
-    private List<Transition> _anyTransitions;
+    private List<Transition> _currentTransitions = new List<Transition>();
+    private List<Transition> _anyTransitions = new List<Transition>();
 
     private static List<Transition> EmptyTransitions = new List<Transition>(0);
 
@@ -46,7 +46,7 @@ public class StateMachine
         _currentState.OnEnter();
     }
 
-    public void AddStransition(IState from, IState to, Func<bool> condition)
+    public void AddTransition(IState from, IState to, Func<bool> condition)
     {
         if(_transitions.TryGetValue(from.GetType(), out var transitions) == false)
         {
