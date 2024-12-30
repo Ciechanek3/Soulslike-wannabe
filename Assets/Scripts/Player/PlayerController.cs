@@ -3,17 +3,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private StateMachine _stateMachine;
-    private float movementSpeed;
+    [SerializeField] private CharacterController characterController;
 
-    private bool _isGrounded;
+    private StateMachine _stateMachine;
+    private float _movementSpeed;
+
+    private bool IsGrounded => characterController.isGrounded;
 
     private void Awake()
     {
         var _inputReader = new InputReader(new PlayerInput(), 0f);
 
         var _idleState = new IdleState();
-        var _moveState = new MoveState(transform, movementSpeed);
+        var _moveState = new MoveState(transform, _movementSpeed);
         var _jumpState = new JumpState(transform);
         var _rollState = new RollingState();
         var _attackState = new AttackState();
@@ -35,9 +37,9 @@ public class PlayerController : MonoBehaviour
 
         void AddTran(IState to, IState from, Func<bool> condition) => _stateMachine.AddTransition(to, from, condition);
 
-        Func<bool> IsMoving() => () => _inputReader.MoveVector != Vector3.zero && _isGrounded;
-        Func<bool> IsIdle() => () => _inputReader.MoveVector == Vector3.zero && _isGrounded;
-        Func<bool> IsJumping() => () => !_isGrounded;
+        Func<bool> IsMoving() => () => _inputReader.MoveVector != Vector3.zero && IsGrounded;
+        Func<bool> IsIdle() => () => _inputReader.MoveVector == Vector3.zero && IsGrounded;
+        Func<bool> IsJumping() => () => !IsGrounded;
         Func<bool> IsAttacking() => () => false;
         Func<bool> IsRolling() => () => _inputReader.IsRolling;
     }
