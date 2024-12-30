@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats
+public class PlayerStats : IStats
 {
-    private int _strength;
-    private int _agility;
+    private List<Stat> _stats;
+    public IStats ModifyStats(List<Stat> Stats)
+    {
+        throw new System.NotImplementedException();
+    }
 }
