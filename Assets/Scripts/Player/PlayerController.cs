@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private CharacterController characterController;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private GroundCheck groundCheck;
 
     private StateMachine _stateMachine;
     private float _movementSpeed;
 
-    private bool IsGrounded => characterController.isGrounded;
+    private bool IsGrounded => groundCheck != null ? groundCheck.IsGrounded() : true; //if we're not using grounding it is true by default for simpler logic
 
     private void Awake()
     {
