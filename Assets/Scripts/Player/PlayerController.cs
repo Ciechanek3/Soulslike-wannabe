@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private GroundCheck groundCheck;
 
+    private InputReader inputReader;
+
     private StateMachine _stateMachine;
     private float _movementSpeed;
 
@@ -20,6 +22,8 @@ public class PlayerController : MonoBehaviour
         var _jumpState = new JumpState(transform);
         var _rollState = new RollingState();
         var _attackState = new AttackState();
+
+        inputReader = _inputReader;
 
         _stateMachine = new StateMachine(_idleState);
 

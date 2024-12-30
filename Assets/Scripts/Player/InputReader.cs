@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputReader
-{    
+{
     private Vector2 _moveInput;
     public bool _isJumping;
     private bool _isRolling;
@@ -12,7 +12,7 @@ public class InputReader
 
     private List<IInputObserver> _inputObservers = new List<IInputObserver>();
 
-    public Vector3 MoveVector => new Vector3(_moveInput.x, 0, _moveInput.y);
+    public Vector3 MoveVector => new Vector3(_moveInput.y, 0, _moveInput.x);
     private Vector3 oldVector;
     public bool IsJumping => _isJumping;
     public bool IsRolling => _isRolling;
@@ -20,8 +20,10 @@ public class InputReader
 
     public InputReader(PlayerInput playerInput, float movementDeadZone)
     {
+        playerInput.Game.Enable();
         playerInput.Game.Move.performed += ctx =>
         {
+            
             _moveInput = ctx.ReadValue<Vector2>();
             if (_moveInput.magnitude < movementDeadZone)
             {

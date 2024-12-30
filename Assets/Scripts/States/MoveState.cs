@@ -27,8 +27,9 @@ public class MoveState : IState, IInputObserver
     {
         _movementVector = moveVector;
     }
+
     public void Tick()
     {
-        
+        _transform.Translate(_movementVector * _movementSpeed * Time.deltaTime);
     }
 }
