@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveState : IState
+public class MoveState : IState, IInputObserver
 {
-    public MoveState(InputReader input, Transform transform)
+    private Vector3 _movementVector;
+    private float _movementSpeed;
+    private Transform _transform;
+    public MoveState(Transform transform, float movementSpeed)
     {
-
+        _transform = transform;
+        _movementSpeed = movementSpeed;
     }
+
     public void OnEnter()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public void OnExit()
@@ -18,8 +23,12 @@ public class MoveState : IState
         throw new System.NotImplementedException();
     }
 
+    public void OnInputChanged(Vector3 moveVector)
+    {
+        _movementVector = moveVector;
+    }
     public void Tick()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

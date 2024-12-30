@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private StateMachine _stateMachine;
+    private float movementSpeed;
 
     private bool _isGrounded;
 
@@ -12,8 +13,8 @@ public class PlayerController : MonoBehaviour
         var _inputReader = new InputReader(new PlayerInput(), 0f);
 
         var _idleState = new IdleState();
-        var _moveState = new MoveState(_inputReader, transform);
-        var _jumpState = new JumpState();
+        var _moveState = new MoveState(transform, movementSpeed);
+        var _jumpState = new JumpState(transform);
         var _rollState = new RollingState();
         var _attackState = new AttackState();
 

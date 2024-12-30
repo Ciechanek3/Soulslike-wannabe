@@ -4,45 +4,66 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputReader
-{
-    private InputAction _moveAction;
-    private InputAction _jumpAction;
-    private InputAction _rollAction;
-    private InputAction _toggleRunning;
-    
+{    
     private Vector2 _moveInput;
     public bool _isJumping;
     private bool _isRolling;
     private bool _runToggle = true;
 
+    private List<IInputObserver> _inputObservers = new List<IInputObserver>();
+
     public Vector3 MoveVector => new Vector3(_moveInput.x, 0, _moveInput.y);
+    private Vector3 oldVector;
     public bool IsJumping => _isJumping;
     public bool IsRolling => _isRolling;
     public bool RunToggled => _runToggle;
 
     public InputReader(PlayerInput playerInput, float movementDeadZone)
     {
-        _moveAction = playerInput.Game.Move;
-        _jumpAction = playerInput.Game.Jump;
-        _toggleRunning = playerInput.Game.ToggleRunning;
-
-        _moveAction.performed += ctx =>
+        playerInput.Game.Move.performed += ctx =>
         {
             _moveInput = ctx.ReadValue<Vector2>();
             if (_moveInput.magnitude < movementDeadZone)
             {
                 _moveInput = Vector2.zero;
             }
+            NotifyObservers();
         };
 
-        _moveAction.canceled += ctx => _moveInput = Vector2.zero;
+        playerInput.Game.Move.canceled += ctx =>
+        {
+            _moveInput = Vector2.zero;
+            NotifyObservers();
+        };
 
-        _jumpAction.performed += ctx => _isJumping = true;
-        _jumpAction.canceled += ctx => _isJumping = false;
+        playerInput.Game.Jump.performed += ctx => _isJumping = true;
+        playerInput.Game.Jump.canceled += ctx => _isJumping = false;
 
-        _rollAction.performed += ctx => _isRolling = true;
-        _rollAction.canceled += ctx => _isRolling = false;
+        playerInput.Game.Roll.performed += ctx => _isRolling = true;
+        playerInput.Game.Roll.canceled += ctx => _isRolling = false;
 
-        _toggleRunning.performed += ctx => _runToggle = !_runToggle;
+        playerInput.Game.ToggleRunning.performed += ctx => _runToggle = !_runToggle;
+    }
+
+    public void RegisterObserver(IInputObserver observer)
+    {
+        _inputObservers.Add(observer);
+    }
+
+    public void UnregisterObserver(IInputObserver observer)
+    {
+        _inputObservers.Remove(observer);
+    }
+
+    private void NotifyObservers()
+    {
+        if (oldVector == MoveVector) return;
+
+        oldVector = MoveVector;
+
+        foreach (var observer in _inputObservers)
+        {
+            observer.OnInputChanged(MoveVector);
+        }
     }
 }
