@@ -10,16 +10,14 @@ public class InputReader
     private bool _isRolling;
     private bool _runToggle = true;
 
-    private List<IInputObserver> _inputObservers = new List<IInputObserver>();
-
     public Vector3 MoveVector => new Vector3(_moveInput.y, 0, _moveInput.x);
-    private Vector3 oldVector;
     public bool IsJumping => _isJumping;
     public bool IsRolling => _isRolling;
     public bool RunToggled => _runToggle;
 
-    public InputReader(PlayerInput playerInput, float movementDeadZone)
+    public InputReader(Vector3EventChannel onMoveEvent, float movementDeadZone)
     {
+        var playerInput = new PlayerInput();
         playerInput.Game.Enable();
         playerInput.Game.Move.performed += ctx =>
         {
@@ -29,13 +27,13 @@ public class InputReader
             {
                 _moveInput = Vector2.zero;
             }
-            NotifyObservers();
+            onMoveEvent.RaiseEvent(MoveVector);
         };
 
         playerInput.Game.Move.canceled += ctx =>
         {
             _moveInput = Vector2.zero;
-            NotifyObservers();
+            onMoveEvent.RaiseEvent(MoveVector);
         };
 
         playerInput.Game.Jump.performed += ctx => _isJumping = true;
@@ -45,27 +43,5 @@ public class InputReader
         playerInput.Game.Roll.canceled += ctx => _isRolling = false;
 
         playerInput.Game.ToggleRunning.performed += ctx => _runToggle = !_runToggle;
-    }
-
-    public void RegisterObserver(IInputObserver observer)
-    {
-        _inputObservers.Add(observer);
-    }
-
-    public void UnregisterObserver(IInputObserver observer)
-    {
-        _inputObservers.Remove(observer);
-    }
-
-    private void NotifyObservers()
-    {
-        if (oldVector == MoveVector) return;
-
-        oldVector = MoveVector;
-
-        foreach (var observer in _inputObservers)
-        {
-            observer.OnInputChanged(MoveVector);
-        }
     }
 }

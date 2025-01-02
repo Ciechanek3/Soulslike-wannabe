@@ -2,20 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveState : IState, IInputObserver
+public class MoveState : IState
 {
     private Vector3 _movementVector;
     private float _movementSpeed;
     private Transform _transform;
-    public MoveState(Transform transform, float movementSpeed)
+    private Vector3EventChannel _onMoveEvent;
+    public MoveState(Transform transform, Vector3EventChannel onMoveEvent, float movementSpeed)
     {
         _transform = transform;
         _movementSpeed = movementSpeed;
+        _onMoveEvent = onMoveEvent;
+        _onMoveEvent.RegisterObserver(OnInputChanged);
     }
 
     public void OnEnter()
     {
-
+        
     }
 
     public void OnExit()

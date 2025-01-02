@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
     [SerializeField] private GroundCheck groundCheck;
+    [SerializeField] private Vector3EventChannel moveEventChannel;
 
     private InputReader inputReader;
 
@@ -15,10 +16,10 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        var _inputReader = new InputReader(new PlayerInput(), 0f);
+        var _inputReader = new InputReader(moveEventChannel, 0f);
 
         var _idleState = new IdleState();
-        var _moveState = new MoveState(transform, _movementSpeed);
+        var _moveState = new MoveState(transform, moveEventChannel, _movementSpeed);
         var _jumpState = new JumpState(transform);
         var _rollState = new RollingState();
         var _attackState = new AttackState();

@@ -658,6 +658,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 988151885}
   groundCheck: {fileID: 613325613}
+  moveEventChannel: {fileID: 11400000, guid: 7bb9cc062c2771741bf748db97e6dcf0, type: 2}
 --- !u!4 &1830711752
 Transform:
   m_ObjectHideFlags: 0
