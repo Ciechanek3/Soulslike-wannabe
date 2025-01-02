@@ -7,13 +7,11 @@ public class MoveState : IState
     private Vector3 _movementVector;
     private float _movementSpeed;
     private Transform _transform;
-    private Vector3EventChannel _onMoveEvent;
     public MoveState(Transform transform, Vector3EventChannel onMoveEvent, float movementSpeed)
     {
         _transform = transform;
         _movementSpeed = movementSpeed;
-        _onMoveEvent = onMoveEvent;
-        _onMoveEvent.RegisterObserver(OnInputChanged);
+        onMoveEvent.RegisterObserver(OnInputChanged);
     }
 
     public void OnEnter()
