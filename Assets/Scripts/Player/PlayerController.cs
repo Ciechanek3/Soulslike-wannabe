@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private InputReader inputReader;
 
     private StateMachine _stateMachine;
-    private float _movementSpeed;
+    private float _movementSpeed = 1f;
 
     private bool IsGrounded => groundCheck != null ? groundCheck.IsGrounded() : true; //if we're not using grounding it is true by default for simpler logic
 

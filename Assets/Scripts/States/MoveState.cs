@@ -20,7 +20,7 @@ public class MoveState : IState, IInputObserver
 
     public void OnExit()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void OnInputChanged(Vector3 moveVector)

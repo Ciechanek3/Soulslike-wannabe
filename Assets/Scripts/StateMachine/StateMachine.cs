@@ -25,10 +25,13 @@ public class StateMachine
         {
             SetState(transition.To);
         }
+
+        _currentState.Tick();
     }
 
     private void SetState(IState state)
     {
+        Debug.LogError(_currentState);
         if (state == _currentState)
         {
             return;
