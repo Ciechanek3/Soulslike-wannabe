@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class MoveState : IState
 {
+    private Rigidbody _rigidbody;
     private Vector3 _movementVector;
     private float _movementSpeed;
-    private Transform _transform;
-    public MoveState(Transform transform, Vector3EventChannel onMoveEvent, float movementSpeed)
+    private float _jumpSpeedMultiplier;
+    
+    public MoveState(Rigidbody rb, Vector3EventChannel onMoveEvent, EventChannelSO onJumpEvent, float movementSpeed, float jumpSpeedMultiplier)
     {
-        _transform = transform;
+        _rigidbody = rb;
         _movementSpeed = movementSpeed;
+        _jumpSpeedMultiplier = jumpSpeedMultiplier;
         onMoveEvent.RegisterObserver(OnInputChanged);
+        onJumpEvent.RegisterObserver(OnJump);
     }
 
     public void OnEnter()
@@ -26,11 +30,16 @@ public class MoveState : IState
 
     public void OnInputChanged(Vector3 moveVector)
     {
-        _movementVector = moveVector;
+        _movementVector = new Vector3(moveVector.x, _movementVector.y, moveVector.z); ;
+    }
+
+    public void OnJump()
+    {
+        _movementVector = new Vector3(_movementVector.x, _jumpSpeedMultiplier, _movementVector.z); ;
     }
 
     public void Tick()
     {
-        _transform.Translate(_movementVector * _movementSpeed * Time.deltaTime);
+        _rigidbody.velocity = _movementVector * _movementSpeed * Time.deltaTime;
     }
 }

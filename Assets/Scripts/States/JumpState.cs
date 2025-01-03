@@ -5,7 +5,7 @@ using UnityEngine;
 public class JumpState : IState, IInputObserver
 {
     private Vector3 _movementVector;
-    public JumpState(Transform transform)
+    public JumpState(Rigidbody rb)
     {
 
     }

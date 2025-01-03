@@ -3,28 +3,34 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private GroundCheck groundCheck;
-    [SerializeField] private Vector3EventChannel moveEventChannel;
+    [SerializeField] private Vector3EventChannel onMoveEventChannel;
+    [SerializeField] private EventChannelSO onJumpEventChannel;
 
-    private InputReader inputReader;
-
-    private StateMachine _stateMachine;
+    [Header("Parameters")]
     private float _movementSpeed = 1f;
+    private float _jumpSpeedMultiplier = 1f;
+
+    private InputReader _inputReader;
+    private StateMachine _stateMachine;
 
     private bool IsGrounded => groundCheck != null ? groundCheck.IsGrounded() : true; //if we're not using grounding it is true by default for simpler logic
 
+    //on jump pressed even that changes bool to true, on reading this bool it changes it back to false// (na jutro)
+
     private void Awake()
     {
-        var _inputReader = new InputReader(moveEventChannel, 0f);
+        var _inputReader = new InputReader(onMoveEventChannel, onJumpEventChannel, 0f);
 
         var _idleState = new IdleState();
-        var _moveState = new MoveState(transform, moveEventChannel, _movementSpeed);
-        var _jumpState = new JumpState(transform);
+        var _moveState = new MoveState(rb, onMoveEventChannel, onJumpEventChannel, _movementSpeed, _jumpSpeedMultiplier);
+        var _jumpState = new JumpState(rb);
         var _rollState = new RollingState();
         var _attackState = new AttackState();
 
-        inputReader = _inputReader;
+        _inputReader = _inputReader;
 
         _stateMachine = new StateMachine(_idleState);
 
@@ -50,7 +56,7 @@ public class PlayerController : MonoBehaviour
         Func<bool> IsRolling() => () => _inputReader.IsRolling;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _stateMachine.Tick();
     }
