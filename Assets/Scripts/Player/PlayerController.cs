@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float movementSpeed = 1f;
     [SerializeField] private float jumpSpeed = 1f;
 
-    private InputReader _inputReader;
     private StateMachine _stateMachine;
 
     private bool IsGrounded => groundCheck != null ? groundCheck.IsGrounded() : true; //if we're not using grounding it is true by default for simpler logic
@@ -30,7 +29,7 @@ public class PlayerController : MonoBehaviour
         var _rollState = new RollingState();
         var _attackState = new AttackState();
 
-        _stateMachine = new StateMachine(_idleState);
+        _stateMachine = new StateMachine();
 
         _stateMachine.AddAnyTransition(_moveState, IsMoving());
         _stateMachine.AddAnyTransition(_idleState, IsIdle());
@@ -44,6 +43,8 @@ public class PlayerController : MonoBehaviour
         AddTran(_idleState, _rollState, IsRolling());
 
         AddTran(_jumpState, _attackState, IsAttacking());
+
+        _stateMachine.SetState(_idleState);
 
         void AddTran(IState from, IState to, Func<bool> condition) => _stateMachine.AddTransition(from, to, condition);
 

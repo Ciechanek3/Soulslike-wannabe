@@ -32,7 +32,6 @@ public class IdleState : IState
 
     public void Tick()
     {
-        Debug.LogError(_movementVector);
         _rigidbody.velocity = _movementVector * Time.deltaTime;
     }
 }

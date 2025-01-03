@@ -12,11 +12,6 @@ public class StateMachine
 
     private static List<Transition> EmptyTransitions = new List<Transition>(0);
 
-    public StateMachine(IState startingState)
-    {
-        _currentState = startingState;
-    }
-
     public void Tick()
     {
         var transition = GetTransition();
@@ -28,9 +23,8 @@ public class StateMachine
         _currentState.Tick();
     }
 
-    private void SetState(IState state)
+    public void SetState(IState state)
     {
-        Debug.LogError(_currentState);
         if (state == _currentState)
         {
             return;
@@ -80,7 +74,7 @@ public class StateMachine
     {
         foreach(var transition in _anyTransitions)
         {
-            if(transition.Condition())
+            if(transition.Condition() && transition.To != _currentState)
             {
                 return transition;
             }
