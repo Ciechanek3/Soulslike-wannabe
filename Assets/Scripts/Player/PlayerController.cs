@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private EventChannelSO onJumpEventChannel;
 
     [Header("Parameters")]
-    private float _movementSpeed = 1f;
-    private float _jumpSpeedMultiplier = 1f;
+    [SerializeField] private float movementSpeed = 1f;
+    [SerializeField] private float jumpSpeed = 1f;
 
     private InputReader _inputReader;
     private StateMachine _stateMachine;
@@ -24,13 +24,11 @@ public class PlayerController : MonoBehaviour
     {
         var _inputReader = new InputReader(onMoveEventChannel, onJumpEventChannel, 0f);
 
-        var _idleState = new IdleState();
-        var _moveState = new MoveState(rb, onMoveEventChannel, onJumpEventChannel, _movementSpeed, _jumpSpeedMultiplier);
+        var _idleState = new IdleState(rb, onJumpEventChannel, jumpSpeed);
+        var _moveState = new MoveState(rb, onMoveEventChannel, onJumpEventChannel, movementSpeed, jumpSpeed);
         var _jumpState = new JumpState(rb);
         var _rollState = new RollingState();
         var _attackState = new AttackState();
-
-        _inputReader = _inputReader;
 
         _stateMachine = new StateMachine(_idleState);
 
@@ -47,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
         AddTran(_jumpState, _attackState, IsAttacking());
 
-        void AddTran(IState to, IState from, Func<bool> condition) => _stateMachine.AddTransition(to, from, condition);
+        void AddTran(IState from, IState to, Func<bool> condition) => _stateMachine.AddTransition(from, to, condition);
 
         Func<bool> IsMoving() => () => _inputReader.MoveVector != Vector3.zero && IsGrounded;
         Func<bool> IsIdle() => () => _inputReader.MoveVector == Vector3.zero && IsGrounded;
@@ -58,6 +56,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.LogError(!IsGrounded);
         _stateMachine.Tick();
     }
 }

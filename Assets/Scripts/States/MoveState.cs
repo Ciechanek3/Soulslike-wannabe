@@ -7,20 +7,20 @@ public class MoveState : IState
     private Rigidbody _rigidbody;
     private Vector3 _movementVector;
     private float _movementSpeed;
-    private float _jumpSpeedMultiplier;
+    private float _jumpSpeed;
     
-    public MoveState(Rigidbody rb, Vector3EventChannel onMoveEvent, EventChannelSO onJumpEvent, float movementSpeed, float jumpSpeedMultiplier)
+    public MoveState(Rigidbody rb, Vector3EventChannel onMoveEvent, EventChannelSO onJumpEvent, float movementSpeed, float jumpSpeed)
     {
         _rigidbody = rb;
         _movementSpeed = movementSpeed;
-        _jumpSpeedMultiplier = jumpSpeedMultiplier;
+        _jumpSpeed = jumpSpeed;
         onMoveEvent.RegisterObserver(OnInputChanged);
         onJumpEvent.RegisterObserver(OnJump);
     }
 
     public void OnEnter()
     {
-        
+        _movementVector = new Vector3(_movementVector.x, 0, _movementVector.z);
     }
 
     public void OnExit()
@@ -30,16 +30,17 @@ public class MoveState : IState
 
     public void OnInputChanged(Vector3 moveVector)
     {
-        _movementVector = new Vector3(moveVector.x, _movementVector.y, moveVector.z); ;
+        _movementVector = new Vector3(moveVector.x * _movementSpeed, _movementVector.y, moveVector.z * _movementSpeed);
     }
 
     public void OnJump()
     {
-        _movementVector = new Vector3(_movementVector.x, _jumpSpeedMultiplier, _movementVector.z); ;
+        _movementVector = new Vector3(_movementVector.x, _jumpSpeed, _movementVector.z);
     }
 
     public void Tick()
     {
-        _rigidbody.velocity = _movementVector * _movementSpeed * Time.deltaTime;
+        Debug.LogError(_movementVector);
+        _rigidbody.velocity = _movementVector * Time.deltaTime;
     }
 }
