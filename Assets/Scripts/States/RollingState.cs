@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class RollingState : IState
 {
+    public RollingState()
+    {
+        //damagable class
+    }
     public void OnEnter()
     {
-        throw new System.NotImplementedException();
+        //damagable set active false
     }
 
     public void OnExit()
     {
-        throw new System.NotImplementedException();
+        //damagable set active true
     }
 
     public void Tick()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

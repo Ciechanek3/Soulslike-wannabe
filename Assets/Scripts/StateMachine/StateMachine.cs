@@ -12,6 +12,8 @@ public class StateMachine
 
     private static List<Transition> EmptyTransitions = new List<Transition>(0);
 
+    public IState CurrentState => _currentState;
+
     public void Tick()
     {
         var transition = GetTransition();
