@@ -15,7 +15,7 @@ public class InputReader
     public bool IsRolling => _isRolling;
     public bool RunToggled => _runToggle;
 
-    public InputReader(Vector3EventChannel onMoveEvent, EventChannelSO onJumpEvent, float movementDeadZone)
+    public InputReader(Vector3EventChannel onMoveEvent, EventChannelSO onJumpEvent, EventChannelSO onRollEvent, float movementDeadZone)
     {
         var playerInput = new PlayerInput();
         playerInput.Game.Enable();
@@ -43,7 +43,12 @@ public class InputReader
         };
         playerInput.Game.Jump.canceled += ctx => _isJumping = false;
 
-        playerInput.Game.Roll.performed += ctx => _isRolling = true;
+        playerInput.Game.Roll.performed += ctx =>
+        {
+            _isRolling = true;
+
+            onRollEvent.RaiseEvent();
+        };
         playerInput.Game.Roll.canceled += ctx => _isRolling = false;
 
         playerInput.Game.ToggleRunning.performed += ctx => _runToggle = !_runToggle;

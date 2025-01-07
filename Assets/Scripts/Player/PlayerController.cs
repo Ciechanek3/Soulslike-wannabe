@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        var _inputReader = new InputReader(onMoveEventChannel, onJumpEventChannel, onRollEventChannel, 0f);
+
         _playerModel = new PlayerModel(rb, onMoveEventChannel, onJumpEventChannel, groundCheck, movementSpeed, jumpSpeed);
         _playerView = new PlayerView(animator);
     }
@@ -52,5 +54,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+    public void DisableRolling()
+    {
+        _playerModel.IsRolling = false;
+        animator.ResetTrigger("Roll");
+    }
 }

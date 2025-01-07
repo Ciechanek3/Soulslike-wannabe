@@ -253,7 +253,7 @@ Transform:
   m_GameObject: {fileID: 613325611}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -377,7 +377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 888950722}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -520,7 +520,7 @@ Transform:
   m_GameObject: {fileID: 988151880}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -632,8 +632,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1830711753}
   groundCheck: {fileID: 613325613}
+  animator: {fileID: 1830711754}
   onMoveEventChannel: {fileID: 11400000, guid: 7bb9cc062c2771741bf748db97e6dcf0, type: 2}
   onJumpEventChannel: {fileID: 11400000, guid: da36795ba49c1594ca9b5daca52d581a, type: 2}
+  onRollEventChannel: {fileID: 11400000, guid: 1b2655e70e9eb744996a6b051bbda2cf, type: 2}
+  onAttackEventChannel: {fileID: 11400000, guid: 0ff974bae33ce9b4f9b184a3deaae554, type: 2}
   movementSpeed: 100
   jumpSpeed: 100
 --- !u!4 &1830711752
@@ -645,7 +648,7 @@ Transform:
   m_GameObject: {fileID: 1830711749}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.51, z: 0}
+  m_LocalPosition: {x: 0, y: 0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -691,9 +694,9 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 64973f9decd256e41878b980de582153, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_CullingMode: 1
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 

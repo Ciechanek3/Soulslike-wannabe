@@ -11,11 +11,6 @@ public class PlayerView
         _animator = animator;
     }
 
-    private void PlayAnimation()
-    {
-
-    }
-
     public void StartRolling()
     {
         _animator.SetTrigger("Roll");
