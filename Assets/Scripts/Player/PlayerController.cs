@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -17,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [Header("Parameters")]
     [SerializeField] private float movementSpeed = 1f;
     [SerializeField] private float jumpSpeed = 1f;
+    [SerializeField] private float rollingSpeed = 1f;
 
     private PlayerModel _playerModel;
     private PlayerView _playerView;
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     {
         var _inputReader = new InputReader(onMoveEventChannel, onJumpEventChannel, onRollEventChannel, 0f);
 
-        _playerModel = new PlayerModel(rb, onMoveEventChannel, onJumpEventChannel, groundCheck, movementSpeed, jumpSpeed);
+        _playerModel = new PlayerModel(rb, transform, onMoveEventChannel, onJumpEventChannel, groundCheck, movementSpeed, jumpSpeed, rollingSpeed);
         _playerView = new PlayerView(animator);
     }
 
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     public void DisableRolling()
     {
-        _playerModel.IsRolling = false;
+         _playerModel.IsRolling = false;
         animator.ResetTrigger("Roll");
     }
 }

@@ -7,6 +7,7 @@ public class PlayerModel
     private int _healthPoints;
     private float _movementSpeed;
     private float _jumpSpeed;
+    private float _rollingSpeed;
     private float _armor;
     private float _stamina;
 
@@ -18,22 +19,23 @@ public class PlayerModel
 
     public bool IsRolling;
 
-    public PlayerModel(Rigidbody rb, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel, GroundCheck groundCheck, float ms, float js)
+    public PlayerModel(Rigidbody rb, Transform transform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel, GroundCheck groundCheck, float ms, float js, float rs)
     {
         _groundCheck = groundCheck;
         _movementSpeed = ms;
         _jumpSpeed = js;
+        _rollingSpeed = rs;
 
-        InitStateMachine(rb, onMoveEventChannel, onJumpEventChannel);
+        InitStateMachine(rb, transform, onMoveEventChannel, onJumpEventChannel);
         onMoveEventChannel.RegisterObserver(UpdateMovement);
     }
 
-    public void InitStateMachine(Rigidbody rb, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel)
+    public void InitStateMachine(Rigidbody rb, Transform transform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel)
     {
         var _idleState = new IdleState(rb, onJumpEventChannel, _jumpSpeed);
         var _moveState = new MoveState(rb, onMoveEventChannel, onJumpEventChannel, _movementSpeed, _jumpSpeed);
         var _jumpState = new JumpState(rb);
-        var _rollState = new RollingState();
+        var _rollState = new RollingState(transform, rb, _rollingSpeed);
         var _attackState = new AttackState();
 
         _stateMachine = new StateMachine();
@@ -64,7 +66,6 @@ public class PlayerModel
 
     public void FixedUpdate()
     {
-        Debug.LogError(!IsGrounded);
         _stateMachine.Tick();
     }
 

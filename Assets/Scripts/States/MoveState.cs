@@ -6,6 +6,7 @@ public class MoveState : IState
 {
     private Rigidbody _rigidbody;
     private Vector3 _movementVector;
+    private Quaternion _targetRotation;
     private float _movementSpeed;
     private float _jumpSpeed;
     
@@ -31,6 +32,7 @@ public class MoveState : IState
     public void OnInputChanged(Vector3 moveVector)
     {
         _movementVector = new Vector3(moveVector.x * _movementSpeed, _movementVector.y, moveVector.z * _movementSpeed);
+        HandleRotation();
     }
 
     public void OnJump()
@@ -40,6 +42,14 @@ public class MoveState : IState
 
     public void Tick()
     {
-        _rigidbody.velocity = _movementVector * Time.deltaTime;
+        _rigidbody.velocity = _movementVector;
+        _rigidbody.rotation = Quaternion.Slerp(_rigidbody.rotation, _targetRotation, 10f * Time.fixedDeltaTime);
+    }
+
+    private void HandleRotation()
+    {
+        if (_movementVector == Vector3.zero) return;
+        _targetRotation = Quaternion.Euler(0f, Quaternion.LookRotation(_movementVector.normalized).eulerAngles.y - 90, 0f);
+        
     }
 }

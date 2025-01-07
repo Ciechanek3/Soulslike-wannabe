@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class RollingState : IState
 {
-    public RollingState()
+    private Transform _transform;
+    private Rigidbody _rigidbody;
+    private float _speed;
+
+    public RollingState(Transform transform, Rigidbody rb, float rollingSpeed)
     {
+        _transform = transform;
+        _rigidbody = rb;
+        _speed = rollingSpeed;
         //damagable class
     }
     public void OnEnter()
@@ -20,6 +27,6 @@ public class RollingState : IState
 
     public void Tick()
     {
-        
+        _rigidbody.velocity = _transform.forward * _speed;
     }
 }

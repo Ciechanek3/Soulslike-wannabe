@@ -32,6 +32,6 @@ public class IdleState : IState
 
     public void Tick()
     {
-        _rigidbody.velocity = _movementVector * Time.deltaTime;
+        _rigidbody.velocity = _movementVector;
     }
 }
