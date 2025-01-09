@@ -27,6 +27,6 @@ public class RollingState : IState
 
     public void Tick()
     {
-        _rigidbody.velocity = _transform.forward * _speed;
+        _rigidbody.velocity = _transform.right * _speed;
     }
 }

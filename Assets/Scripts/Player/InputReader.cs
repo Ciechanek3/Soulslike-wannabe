@@ -10,7 +10,7 @@ public class InputReader
     private bool _isRolling;
     private bool _runToggle = true;
 
-    public Vector3 MoveVector => new Vector3(_moveInput.y, 0, _moveInput.x).normalized;
+    public Vector3 MoveVector => new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
     public bool IsJumping => _isJumping;
     public bool IsRolling => _isRolling;
     public bool RunToggled => _runToggle;

@@ -36,7 +36,7 @@ public class PlayerModel
         var _moveState = new MoveState(rb, onMoveEventChannel, onJumpEventChannel, _movementSpeed, _jumpSpeed);
         var _jumpState = new JumpState(rb);
         var _rollState = new RollingState(transform, rb, _rollingSpeed);
-        var _attackState = new AttackState();
+        var _attackState = new AttackState(rb);
 
         _stateMachine = new StateMachine();
 
@@ -57,7 +57,7 @@ public class PlayerModel
 
         void AddTran(IState from, IState to, Func<bool> condition) => _stateMachine.AddTransition(from, to, condition);
 
-        Func<bool> IsMoving() => () => _moveVector != Vector3.zero && IsGrounded;
+        Func<bool> IsMoving() => () => _moveVector != Vector3.zero && IsGrounded && !IsRolling;
         Func<bool> IsIdle() => () => _moveVector == Vector3.zero && IsGrounded;
         Func<bool> IsJumping() => () => !IsGrounded;
         Func<bool> IsAttacking() => () => false;

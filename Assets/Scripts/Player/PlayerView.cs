@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerView
 {
     private Animator _animator;
+    private int hashRollAnim = Animator.StringToHash("Roll");
 
     public PlayerView(Animator animator)
     {
@@ -11,6 +12,6 @@ public class PlayerView
 
     public void StartRolling()
     {
-        _animator.SetTrigger("Roll");
+        _animator.SetTrigger(hashRollAnim);
     }
 }
