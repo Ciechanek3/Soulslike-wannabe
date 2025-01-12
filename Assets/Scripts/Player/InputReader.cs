@@ -53,7 +53,7 @@ public class InputReader : MonoBehaviour
         playerInput.Game.Lock.performed += ctx =>
         {
             onLockEventChannel.RaiseEvent();
-        }
+        };
 
         playerInput.Game.ToggleRunning.performed += ctx => _runToggle = !_runToggle;
     }
