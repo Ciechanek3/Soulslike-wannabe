@@ -3,53 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputReader
+public class InputReader : MonoBehaviour
 {
+    [SerializeField] private float movementDeadZone;
+
+    [Header("Events")]
+    [SerializeField] private Vector3EventChannel onMoveEventChannel;
+    [SerializeField] private EventChannelSO onJumpEventChannel;
+    [SerializeField] private EventChannelSO onRollEventChannel;
+    [SerializeField] private EventChannelSO onAttackEventChannel;
+
     private Vector2 _moveInput;
-    public bool _isJumping;
-    private bool _isRolling;
     private bool _runToggle = true;
 
     public Vector3 MoveVector => new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
-    public bool IsJumping => _isJumping;
-    public bool IsRolling => _isRolling;
-    public bool RunToggled => _runToggle;
 
-    public InputReader(Vector3EventChannel onMoveEvent, EventChannelSO onJumpEvent, EventChannelSO onRollEvent, float movementDeadZone)
+    private void Awake()
     {
         var playerInput = new PlayerInput();
         playerInput.Game.Enable();
         playerInput.Game.Move.performed += ctx =>
         {
-            
+
             _moveInput = ctx.ReadValue<Vector2>();
             if (_moveInput.magnitude < movementDeadZone)
             {
                 _moveInput = Vector2.zero;
             }
-            onMoveEvent.RaiseEvent(MoveVector);
+            onMoveEventChannel.RaiseEvent(MoveVector);
         };
 
         playerInput.Game.Move.canceled += ctx =>
         {
             _moveInput = Vector2.zero;
-            onMoveEvent.RaiseEvent(MoveVector);
+            onMoveEventChannel.RaiseEvent(MoveVector);
         };
 
         playerInput.Game.Jump.performed += ctx =>
         {
-            _isJumping = true;
-            onJumpEvent.RaiseEvent();
+            onJumpEventChannel.RaiseEvent();
         };
-        playerInput.Game.Jump.canceled += ctx => _isJumping = false;
 
         playerInput.Game.Roll.performed += ctx =>
         {
-            _isRolling = true;
-
-            onRollEvent.RaiseEvent();
+            onRollEventChannel.RaiseEvent();
         };
-        playerInput.Game.Roll.canceled += ctx => _isRolling = false;
 
         playerInput.Game.ToggleRunning.performed += ctx => _runToggle = !_runToggle;
     }

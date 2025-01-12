@@ -20,12 +20,9 @@ public class PlayerController : MonoBehaviour
 
     private PlayerModel _playerModel;
     private PlayerView _playerView;
-    
 
     private void Awake()
     {
-        var _inputReader = new InputReader(onMoveEventChannel, onJumpEventChannel, onRollEventChannel, 0f);
-
         _playerModel = new PlayerModel(rb, transform, onMoveEventChannel, onJumpEventChannel, groundCheck, movementSpeed, jumpSpeed, rollingSpeed);
         _playerView = new PlayerView(animator);
     }
