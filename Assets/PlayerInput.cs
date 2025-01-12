@@ -62,6 +62,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Lock"",
+                    ""type"": ""Button"",
+                    ""id"": ""8957275a-f6fb-4d72-b615-1ad2d017f516"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleRunning"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3bd66f90-2748-4cdb-a2fc-8b8bb8b37de3"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +184,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Game_Jump = m_Game.FindAction("Jump", throwIfNotFound: true);
         m_Game_Roll = m_Game.FindAction("Roll", throwIfNotFound: true);
         m_Game_ToggleRunning = m_Game.FindAction("ToggleRunning", throwIfNotFound: true);
+        m_Game_Lock = m_Game.FindAction("Lock", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,6 +250,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Jump;
     private readonly InputAction m_Game_Roll;
     private readonly InputAction m_Game_ToggleRunning;
+    private readonly InputAction m_Game_Lock;
     public struct GameActions
     {
         private @PlayerInput m_Wrapper;
@@ -237,6 +259,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Game_Jump;
         public InputAction @Roll => m_Wrapper.m_Game_Roll;
         public InputAction @ToggleRunning => m_Wrapper.m_Game_ToggleRunning;
+        public InputAction @Lock => m_Wrapper.m_Game_Lock;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -258,6 +281,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ToggleRunning.started += instance.OnToggleRunning;
             @ToggleRunning.performed += instance.OnToggleRunning;
             @ToggleRunning.canceled += instance.OnToggleRunning;
+            @Lock.started += instance.OnLock;
+            @Lock.performed += instance.OnLock;
+            @Lock.canceled += instance.OnLock;
         }
 
         private void UnregisterCallbacks(IGameActions instance)
@@ -274,6 +300,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ToggleRunning.started -= instance.OnToggleRunning;
             @ToggleRunning.performed -= instance.OnToggleRunning;
             @ToggleRunning.canceled -= instance.OnToggleRunning;
+            @Lock.started -= instance.OnLock;
+            @Lock.performed -= instance.OnLock;
+            @Lock.canceled -= instance.OnLock;
         }
 
         public void RemoveCallbacks(IGameActions instance)
@@ -297,5 +326,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
         void OnToggleRunning(InputAction.CallbackContext context);
+        void OnLock(InputAction.CallbackContext context);
     }
 }

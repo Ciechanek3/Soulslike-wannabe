@@ -12,6 +12,7 @@ public class InputReader : MonoBehaviour
     [SerializeField] private EventChannelSO onJumpEventChannel;
     [SerializeField] private EventChannelSO onRollEventChannel;
     [SerializeField] private EventChannelSO onAttackEventChannel;
+    [SerializeField] private EventChannelSO onLockEventChannel;
 
     private Vector2 _moveInput;
     private bool _runToggle = true;
@@ -48,6 +49,11 @@ public class InputReader : MonoBehaviour
         {
             onRollEventChannel.RaiseEvent();
         };
+
+        playerInput.Game.Lock.performed += ctx =>
+        {
+            onLockEventChannel.RaiseEvent();
+        }
 
         playerInput.Game.ToggleRunning.performed += ctx => _runToggle = !_runToggle;
     }
