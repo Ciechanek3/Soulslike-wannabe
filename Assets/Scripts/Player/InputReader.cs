@@ -62,6 +62,12 @@ public class InputReader : MonoBehaviour
             onLockEventChannel.RaiseEvent(CameraVector);  
         };
 
+        playerInput.Game.Lock.canceled += ctx =>
+        {
+            _cameraInput = Vector2.zero;
+            onLockEventChannel.RaiseEvent(CameraVector);
+        };
+
         playerInput.Game.ToggleRunning.performed += ctx => _runToggle = !_runToggle;
     }
 }

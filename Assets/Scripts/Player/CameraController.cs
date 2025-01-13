@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     [Header("Lock Detection Settings")]
     [SerializeField] private float range;
 
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private Transform lookTarget;
 
     [SerializeField] private Vector3EventChannel onLockEventChannel;
 
@@ -24,12 +24,12 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
-        onLockEventChannel.RegisterObserver(LockTarget);
+        onLockEventChannel.RegisterObserver(UpdateRotateVector);
     }
 
     private void OnDisable()
     {
-        onLockEventChannel.UnregisterObserver(LockTarget);
+        onLockEventChannel.UnregisterObserver(UpdateRotateVector);
     }
 
     private void UpdateRotateVector(Vector3 vector)
@@ -37,14 +37,15 @@ public class CameraController : MonoBehaviour
         _moveVector = vector;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        
+        transform.RotateAround(lookTarget.transform.position, Vector3.up, _moveVector.x * mouseSensitivity);
+        transform.RotateAround(lookTarget.transform.position, transform.right, _moveVector.y * mouseSensitivity);
     }
 
     private void LockTarget(Vector3 cameraInput)
     {
-        if (_targetLocator.TryFindLockableTarget(playerController.transform, out _currentTarget))
+        if (_targetLocator.TryFindLockableTarget(lookTarget.transform, out _currentTarget))
         {
             transform.LookAt(_currentTarget.LockTransform);
         }
