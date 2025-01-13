@@ -5,6 +5,9 @@ using UnityEngine;
 public class TargetLocator
 {
     private float _range;
+    private float _dotProductThreshold;
+
+    private Enemy[] temp;
 
     public TargetLocator(float range)
     {
@@ -13,16 +16,29 @@ public class TargetLocator
 
     public bool TryFindLockableTarget(Transform t, out ILockable lockable)
     {
-        lockable = null;
-        if(Physics.Raycast(t.position, t.TransformDirection(Vector3.forward), out RaycastHit hit, _range))
+        lockable = GetClosestEnemyInDirection(t);
+        return lockable != null;
+    }
+
+
+    ILockable GetClosestEnemyInDirection(Transform t)
+    {
+        ILockable closestLockable = null;
+        float maxDotProduct = _dotProductThreshold;
+
+        temp = Object.FindObjectsOfType<Enemy>();
+        foreach (ILockable lockable in temp)
         {
-            if (hit.collider.TryGetComponent(out ILockable _lockable))
+            Vector3 enemyDirection = (lockable.LockTransform.position - t.position).normalized;
+            float dotProduct = Vector3.Dot(Vector3.forward, enemyDirection);
+
+            if (dotProduct > maxDotProduct && (Vector3.Distance(t.position, lockable.LockTransform.position)) <= _range)
             {
-                lockable = _lockable;
-                return true;
+                maxDotProduct = dotProduct;
+                closestLockable = lockable;
             }
-            return false;
         }
-        return false;
+
+        return closestLockable;
     }
 }

@@ -43,12 +43,12 @@
                 },
                 {
                     "name": "Lock",
-                    "type": "Button",
-                    "id": "8957275a-f6fb-4d72-b615-1ad2d017f516",
-                    "expectedControlType": "Button",
+                    "type": "Value",
+                    "id": "cf5c2177-e70d-4b17-afb8-e7a885fbfc02",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -141,15 +141,59 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "3bd66f90-2748-4cdb-a2fc-8b8bb8b37de3",
-                    "path": "<Mouse>/middleButton",
+                    "name": "Mouse",
+                    "id": "c57e97f3-60b4-409a-8014-5f1ebc90f298",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "5e005bf9-8d59-45b6-badc-fdcb23db24ef",
+                    "path": "<Mouse>/delta/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Lock",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "53cc3cdd-33c5-41fb-835b-d613d19a71aa",
+                    "path": "<Mouse>/delta/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "7100cd21-c120-46b3-8925-eecee76b4fc8",
+                    "path": "<Mouse>/delta/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "3be5d263-059a-4c1b-b01b-4c26439d2354",
+                    "path": "<Mouse>/delta/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lock",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

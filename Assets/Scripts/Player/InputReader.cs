@@ -12,12 +12,14 @@ public class InputReader : MonoBehaviour
     [SerializeField] private EventChannelSO onJumpEventChannel;
     [SerializeField] private EventChannelSO onRollEventChannel;
     [SerializeField] private EventChannelSO onAttackEventChannel;
-    [SerializeField] private EventChannelSO onLockEventChannel;
+    [SerializeField] private Vector3EventChannel onLockEventChannel;
 
     private Vector2 _moveInput;
+    private Vector3 _cameraInput;
     private bool _runToggle = true;
 
     public Vector3 MoveVector => new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
+    public Vector3 CameraVector => new Vector3(_cameraInput.x, _cameraInput.y, 0);
 
     private void Awake()
     {
@@ -52,7 +54,12 @@ public class InputReader : MonoBehaviour
 
         playerInput.Game.Lock.performed += ctx =>
         {
-            onLockEventChannel.RaiseEvent();
+            _cameraInput = ctx.ReadValue<Vector2>();
+            if (_cameraInput.magnitude < movementDeadZone)
+            {
+                _cameraInput = Vector2.zero;
+            }
+            onLockEventChannel.RaiseEvent(CameraVector);  
         };
 
         playerInput.Game.ToggleRunning.performed += ctx => _runToggle = !_runToggle;

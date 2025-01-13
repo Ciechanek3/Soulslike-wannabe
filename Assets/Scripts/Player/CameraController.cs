@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] private float mouseSensitivity = 100f;
+
     [Header("Lock Detection Settings")]
     [SerializeField] private float range;
 
     [SerializeField] private PlayerController playerController;
-    [SerializeField] private EventChannelSO onLockEventChannel;
+
+    [SerializeField] private Vector3EventChannel onLockEventChannel;
 
     private TargetLocator _targetLocator;
     private ILockable _currentTarget;
+    private Vector3 _moveVector;
 
     private void Awake()
     {
@@ -28,7 +32,17 @@ public class CameraController : MonoBehaviour
         onLockEventChannel.UnregisterObserver(LockTarget);
     }
 
-    private void LockTarget()
+    private void UpdateRotateVector(Vector3 vector)
+    {
+        _moveVector = vector;
+    }
+
+    private void Update()
+    {
+        
+    }
+
+    private void LockTarget(Vector3 cameraInput)
     {
         if (_targetLocator.TryFindLockableTarget(playerController.transform, out _currentTarget))
         {
