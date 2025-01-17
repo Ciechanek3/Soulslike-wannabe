@@ -5,16 +5,22 @@ using UnityEngine;
 public class MoveState : IState
 {
     private Rigidbody _rigidbody;
-    private Vector3 _movementVector;
+    private Transform _cameraTransform;
+    
     private Quaternion _targetRotation;
     private float _movementSpeed;
     private float _jumpSpeed;
-    
-    public MoveState(Rigidbody rb, Vector3EventChannel onMoveEvent, EventChannelSO onJumpEvent, float movementSpeed, float jumpSpeed)
+
+    private Vector3 _movementVector;
+    private Vector3 _moveInput;
+    private float _targetAngle;
+
+    public MoveState(Rigidbody rb, Transform cameraTransform, Vector3EventChannel onMoveEvent, EventChannelSO onJumpEvent, float movementSpeed, float jumpSpeed)
     {
         _rigidbody = rb;
         _movementSpeed = movementSpeed;
         _jumpSpeed = jumpSpeed;
+        _cameraTransform = cameraTransform;
         onMoveEvent.RegisterObserver(OnInputChanged);
         onJumpEvent.RegisterObserver(OnJump);
     }
@@ -31,7 +37,7 @@ public class MoveState : IState
 
     public void OnInputChanged(Vector3 moveVector)
     {
-        _movementVector = new Vector3(moveVector.x * _movementSpeed, _movementVector.y, moveVector.z * _movementSpeed);
+        _moveInput = moveVector;
         HandleRotation();
     }
 
@@ -42,14 +48,18 @@ public class MoveState : IState
 
     public void Tick()
     {
+        _targetAngle = Mathf.Atan2(-_moveInput.x, _moveInput.z) * _movementSpeed * Mathf.Rad2Deg + _cameraTransform.eulerAngles.y;
+        _movementVector = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
+
+        _targetRotation = Quaternion.Euler(0f, Quaternion.LookRotation(_movementVector.normalized).eulerAngles.y - 90, 0f);
+
         _rigidbody.velocity = _movementVector;
         _rigidbody.rotation = Quaternion.Slerp(_rigidbody.rotation, _targetRotation, 10f * Time.fixedDeltaTime);
     }
 
     private void HandleRotation()
     {
-        if (_movementVector == Vector3.zero) return;
-        _targetRotation = Quaternion.Euler(0f, Quaternion.LookRotation(_movementVector.normalized).eulerAngles.y - 90, 0f);
+        
         
     }
 }

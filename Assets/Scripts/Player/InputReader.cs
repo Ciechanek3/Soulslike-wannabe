@@ -52,20 +52,20 @@ public class InputReader : MonoBehaviour
             onRollEventChannel.RaiseEvent();
         };
 
-        playerInput.Game.Lock.performed += ctx =>
+        playerInput.Game.Look.performed += ctx =>
         {
             _cameraInput = ctx.ReadValue<Vector2>();
             if (_cameraInput.magnitude < movementDeadZone)
             {
                 _cameraInput = Vector2.zero;
             }
-            onLockEventChannel.RaiseEvent(CameraVector);  
+            //onLockEventChannel.RaiseEvent(CameraVector);  
         };
 
-        playerInput.Game.Lock.canceled += ctx =>
+        playerInput.Game.Look.canceled += ctx =>
         {
             _cameraInput = Vector2.zero;
-            onLockEventChannel.RaiseEvent(CameraVector);
+            //onLockEventChannel.RaiseEvent(CameraVector);
         };
 
         playerInput.Game.ToggleRunning.performed += ctx => _runToggle = !_runToggle;

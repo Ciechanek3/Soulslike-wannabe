@@ -19,21 +19,21 @@ public class PlayerModel
 
     public bool IsRolling;
 
-    public PlayerModel(Rigidbody rb, Transform transform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel, GroundCheck groundCheck, float ms, float js, float rs)
+    public PlayerModel(Rigidbody rb, Transform transform, Transform cameraTransform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel, GroundCheck groundCheck, float ms, float js, float rs)
     {
         _groundCheck = groundCheck;
         _movementSpeed = ms;
         _jumpSpeed = js;
         _rollingSpeed = rs;
 
-        InitStateMachine(rb, transform, onMoveEventChannel, onJumpEventChannel);
+        InitStateMachine(rb, transform, cameraTransform, onMoveEventChannel, onJumpEventChannel);
         onMoveEventChannel.RegisterObserver(UpdateMovement);
     }
 
-    public void InitStateMachine(Rigidbody rb, Transform transform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel)
+    public void InitStateMachine(Rigidbody rb, Transform transform, Transform cameraTransform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel)
     {
         var _idleState = new IdleState(rb, onJumpEventChannel, _jumpSpeed);
-        var _moveState = new MoveState(rb, onMoveEventChannel, onJumpEventChannel, _movementSpeed, _jumpSpeed);
+        var _moveState = new MoveState(rb, cameraTransform, onMoveEventChannel, onJumpEventChannel, _movementSpeed, _jumpSpeed);
         var _jumpState = new JumpState(rb);
         var _rollState = new RollingState(transform, rb, _rollingSpeed);
         var _attackState = new AttackState(rb);

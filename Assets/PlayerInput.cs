@@ -64,7 +64,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Lock"",
+                    ""name"": ""Look"",
                     ""type"": ""Value"",
                     ""id"": ""cf5c2177-e70d-4b17-afb8-e7a885fbfc02"",
                     ""expectedControlType"": ""Axis"",
@@ -169,7 +169,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lock"",
+                    ""action"": ""Look"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -180,7 +180,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lock"",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -191,7 +191,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lock"",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -202,7 +202,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lock"",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -213,7 +213,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Lock"",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -228,7 +228,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Game_Jump = m_Game.FindAction("Jump", throwIfNotFound: true);
         m_Game_Roll = m_Game.FindAction("Roll", throwIfNotFound: true);
         m_Game_ToggleRunning = m_Game.FindAction("ToggleRunning", throwIfNotFound: true);
-        m_Game_Lock = m_Game.FindAction("Lock", throwIfNotFound: true);
+        m_Game_Look = m_Game.FindAction("Look", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -294,7 +294,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Jump;
     private readonly InputAction m_Game_Roll;
     private readonly InputAction m_Game_ToggleRunning;
-    private readonly InputAction m_Game_Lock;
+    private readonly InputAction m_Game_Look;
     public struct GameActions
     {
         private @PlayerInput m_Wrapper;
@@ -303,7 +303,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Game_Jump;
         public InputAction @Roll => m_Wrapper.m_Game_Roll;
         public InputAction @ToggleRunning => m_Wrapper.m_Game_ToggleRunning;
-        public InputAction @Lock => m_Wrapper.m_Game_Lock;
+        public InputAction @Look => m_Wrapper.m_Game_Look;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -325,9 +325,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ToggleRunning.started += instance.OnToggleRunning;
             @ToggleRunning.performed += instance.OnToggleRunning;
             @ToggleRunning.canceled += instance.OnToggleRunning;
-            @Lock.started += instance.OnLock;
-            @Lock.performed += instance.OnLock;
-            @Lock.canceled += instance.OnLock;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
         }
 
         private void UnregisterCallbacks(IGameActions instance)
@@ -344,9 +344,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ToggleRunning.started -= instance.OnToggleRunning;
             @ToggleRunning.performed -= instance.OnToggleRunning;
             @ToggleRunning.canceled -= instance.OnToggleRunning;
-            @Lock.started -= instance.OnLock;
-            @Lock.performed -= instance.OnLock;
-            @Lock.canceled -= instance.OnLock;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
         }
 
         public void RemoveCallbacks(IGameActions instance)
@@ -370,6 +370,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
         void OnToggleRunning(InputAction.CallbackContext context);
-        void OnLock(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
 }

@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private GroundCheck groundCheck;
     [SerializeField] private Animator animator;
+    [SerializeField] private Transform cameraTransform;
 
     [Header("Move events")]
     [SerializeField] private Vector3EventChannel onMoveEventChannel;
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _playerModel = new PlayerModel(rb, transform, onMoveEventChannel, onJumpEventChannel, groundCheck, movementSpeed, jumpSpeed, rollingSpeed);
+        _playerModel = new PlayerModel(rb, transform, cameraTransform, onMoveEventChannel, onJumpEventChannel, groundCheck, movementSpeed, jumpSpeed, rollingSpeed);
         _playerView = new PlayerView(animator);
     }
 
