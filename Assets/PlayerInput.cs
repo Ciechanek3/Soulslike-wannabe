@@ -71,6 +71,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Lock"",
+                    ""type"": ""Button"",
+                    ""id"": ""43337077-b8e0-4bd8-bc27-37b117c3159b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -216,6 +225,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5db85299-5dae-482a-a473-8465782546af"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -229,6 +249,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Game_Roll = m_Game.FindAction("Roll", throwIfNotFound: true);
         m_Game_ToggleRunning = m_Game.FindAction("ToggleRunning", throwIfNotFound: true);
         m_Game_Look = m_Game.FindAction("Look", throwIfNotFound: true);
+        m_Game_Lock = m_Game.FindAction("Lock", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -295,6 +316,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Roll;
     private readonly InputAction m_Game_ToggleRunning;
     private readonly InputAction m_Game_Look;
+    private readonly InputAction m_Game_Lock;
     public struct GameActions
     {
         private @PlayerInput m_Wrapper;
@@ -304,6 +326,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Roll => m_Wrapper.m_Game_Roll;
         public InputAction @ToggleRunning => m_Wrapper.m_Game_ToggleRunning;
         public InputAction @Look => m_Wrapper.m_Game_Look;
+        public InputAction @Lock => m_Wrapper.m_Game_Lock;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -328,6 +351,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Lock.started += instance.OnLock;
+            @Lock.performed += instance.OnLock;
+            @Lock.canceled += instance.OnLock;
         }
 
         private void UnregisterCallbacks(IGameActions instance)
@@ -347,6 +373,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Lock.started -= instance.OnLock;
+            @Lock.performed -= instance.OnLock;
+            @Lock.canceled -= instance.OnLock;
         }
 
         public void RemoveCallbacks(IGameActions instance)
@@ -371,5 +400,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnRoll(InputAction.CallbackContext context);
         void OnToggleRunning(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnLock(InputAction.CallbackContext context);
     }
 }

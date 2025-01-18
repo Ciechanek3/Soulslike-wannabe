@@ -12,7 +12,7 @@ public class InputReader : MonoBehaviour
     [SerializeField] private EventChannelSO onJumpEventChannel;
     [SerializeField] private EventChannelSO onRollEventChannel;
     [SerializeField] private EventChannelSO onAttackEventChannel;
-    [SerializeField] private Vector3EventChannel onLockEventChannel;
+    [SerializeField] private EventChannelSO onLockEventChannel;
 
     private Vector2 _moveInput;
     private Vector3 _cameraInput;
@@ -52,20 +52,9 @@ public class InputReader : MonoBehaviour
             onRollEventChannel.RaiseEvent();
         };
 
-        playerInput.Game.Look.performed += ctx =>
+        playerInput.Game.Lock.performed += ctx =>
         {
-            _cameraInput = ctx.ReadValue<Vector2>();
-            if (_cameraInput.magnitude < movementDeadZone)
-            {
-                _cameraInput = Vector2.zero;
-            }
-            //onLockEventChannel.RaiseEvent(CameraVector);  
-        };
-
-        playerInput.Game.Look.canceled += ctx =>
-        {
-            _cameraInput = Vector2.zero;
-            //onLockEventChannel.RaiseEvent(CameraVector);
+            onLockEventChannel.RaiseEvent();
         };
 
         playerInput.Game.ToggleRunning.performed += ctx => _runToggle = !_runToggle;

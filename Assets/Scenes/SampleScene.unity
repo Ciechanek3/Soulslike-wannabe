@@ -388,7 +388,7 @@ MonoBehaviour:
   onJumpEventChannel: {fileID: 11400000, guid: da36795ba49c1594ca9b5daca52d581a, type: 2}
   onRollEventChannel: {fileID: 11400000, guid: 1b2655e70e9eb744996a6b051bbda2cf, type: 2}
   onAttackEventChannel: {fileID: 11400000, guid: 0ff974bae33ce9b4f9b184a3deaae554, type: 2}
-  onLockEventChannel: {fileID: 0}
+  onLockEventChannel: {fileID: 11400000, guid: 69a53d0c03edf66459c99cadad448f22, type: 2}
 --- !u!4 &146884580
 Transform:
   m_ObjectHideFlags: 0
@@ -686,7 +686,8 @@ GameObject:
   - component: {fileID: 509597773}
   - component: {fileID: 509597772}
   - component: {fileID: 509597771}
-  m_Layer: 0
+  - component: {fileID: 509597775}
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -779,6 +780,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &509597775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509597770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b8f56efb547ce43a4ce6f34d0b3422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &613325611
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,11 +1287,11 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194233}
   - component: {fileID: 963194234}
   - component: {fileID: 963194230}
   - component: {fileID: 963194231}
   - component: {fileID: 963194232}
-  - component: {fileID: 963194233}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1436,16 +1449,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15e6d3d744e9fa147a740f660ccaeeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 10
-  smoothTime: 0
-  range: 5
   lookTarget: {fileID: 418855799}
-  onLockEventChannel: {fileID: 11400000, guid: 849ea372059794a42bd77d746e4a3de4, type: 2}
+  cinemachine: {fileID: 963194234}
+  layerToFind:
+    serializedVersion: 2
+    m_Bits: 64
+  range: 50
+  angle: 300
+  dotProductThreshold: 0
+  onLockEventChannel: {fileID: 11400000, guid: 69a53d0c03edf66459c99cadad448f22, type: 2}
 --- !u!114 &963194234
 MonoBehaviour:
   m_ObjectHideFlags: 0
