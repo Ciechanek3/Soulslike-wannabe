@@ -7,6 +7,7 @@ public class PlayerModel
     private int _healthPoints;
     private float _movementSpeed;
     private float _jumpSpeed;
+    private float _rotationSpeed;
     private float _rollingSpeed;
     private float _armor;
     private float _stamina;
@@ -19,12 +20,13 @@ public class PlayerModel
 
     public bool IsRolling;
 
-    public PlayerModel(Rigidbody rb, Transform transform, Transform cameraTransform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel, GroundCheck groundCheck, float ms, float js, float rs)
+    public PlayerModel(Rigidbody rb, Transform transform, Transform cameraTransform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel, GroundCheck groundCheck, float movementSpeed, float jumpSpeed, float rotationSpeed, float rollingSpeed)
     {
         _groundCheck = groundCheck;
-        _movementSpeed = ms;
-        _jumpSpeed = js;
-        _rollingSpeed = rs;
+        _movementSpeed = movementSpeed;
+        _jumpSpeed = jumpSpeed;
+        _rotationSpeed = rotationSpeed;
+        _rollingSpeed = rollingSpeed;
 
         InitStateMachine(rb, transform, cameraTransform, onMoveEventChannel, onJumpEventChannel);
         onMoveEventChannel.RegisterObserver(UpdateMovement);
@@ -33,7 +35,7 @@ public class PlayerModel
     public void InitStateMachine(Rigidbody rb, Transform transform, Transform cameraTransform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel)
     {
         var _idleState = new IdleState(rb, onJumpEventChannel, _jumpSpeed);
-        var _moveState = new MoveState(rb, cameraTransform, onMoveEventChannel, onJumpEventChannel, _movementSpeed, _jumpSpeed);
+        var _moveState = new MoveState(rb, cameraTransform, onMoveEventChannel, onJumpEventChannel, _movementSpeed, _jumpSpeed, _rotationSpeed);
         var _jumpState = new JumpState(rb);
         var _rollState = new RollingState(transform, rb, _rollingSpeed);
         var _attackState = new AttackState(rb);

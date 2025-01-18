@@ -18,13 +18,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float movementSpeed = 1f;
     [SerializeField] private float jumpSpeed = 1f;
     [SerializeField] private float rollingSpeed = 1f;
+    [SerializeField] private float rotationSpeed = 1f;
 
     private PlayerModel _playerModel;
     private PlayerView _playerView;
 
     private void Awake()
     {
-        _playerModel = new PlayerModel(rb, transform, cameraTransform, onMoveEventChannel, onJumpEventChannel, groundCheck, movementSpeed, jumpSpeed, rollingSpeed);
+        _playerModel = new PlayerModel(rb, transform, cameraTransform, onMoveEventChannel, onJumpEventChannel, groundCheck, movementSpeed, jumpSpeed, rotationSpeed, rollingSpeed);
         _playerView = new PlayerView(animator);
     }
 

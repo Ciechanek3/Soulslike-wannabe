@@ -6,21 +6,22 @@ public class MoveState : IState
 {
     private Rigidbody _rigidbody;
     private Transform _cameraTransform;
-    
-    private Quaternion _targetRotation;
+
     private float _movementSpeed;
+    private float _rotationSpeed;
     private float _jumpSpeed;
 
     private Vector3 _movementVector;
-    private Vector3 _moveInput;
+
     private float _targetAngle;
 
-    public MoveState(Rigidbody rb, Transform cameraTransform, Vector3EventChannel onMoveEvent, EventChannelSO onJumpEvent, float movementSpeed, float jumpSpeed)
+    public MoveState(Rigidbody rb, Transform cameraTransform, Vector3EventChannel onMoveEvent, EventChannelSO onJumpEvent, float movementSpeed, float jumpSpeed, float rotationSpeed)
     {
         _rigidbody = rb;
         _movementSpeed = movementSpeed;
         _jumpSpeed = jumpSpeed;
         _cameraTransform = cameraTransform;
+        _rotationSpeed = rotationSpeed;
         onMoveEvent.RegisterObserver(OnInputChanged);
         onJumpEvent.RegisterObserver(OnJump);
     }
@@ -32,13 +33,12 @@ public class MoveState : IState
 
     public void OnExit()
     {
-        
+
     }
 
     public void OnInputChanged(Vector3 moveVector)
     {
-        _moveInput = moveVector;
-        HandleRotation();
+        _movementVector = moveVector;
     }
 
     public void OnJump()
@@ -48,18 +48,24 @@ public class MoveState : IState
 
     public void Tick()
     {
-        _targetAngle = Mathf.Atan2(-_moveInput.x, _moveInput.z) * _movementSpeed * Mathf.Rad2Deg + _cameraTransform.eulerAngles.y;
-        _movementVector = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
+        Vector3 forward = _cameraTransform.forward;
+        Vector3 right = _cameraTransform.right;
 
-        _targetRotation = Quaternion.Euler(0f, Quaternion.LookRotation(_movementVector.normalized).eulerAngles.y - 90, 0f);
+        forward.y = 0;
+        right.y = 0;
+        forward.Normalize();
+        right.Normalize();
+        var moveDirection = (_movementVector.z * forward + _movementVector.x * right).normalized;
+        if (moveDirection.magnitude < 0.1f) return;
 
-        _rigidbody.velocity = _movementVector;
-        _rigidbody.rotation = Quaternion.Slerp(_rigidbody.rotation, _targetRotation, 10f * Time.fixedDeltaTime);
-    }
+        _rigidbody.velocity = moveDirection * _movementSpeed;
 
-    private void HandleRotation()
-    {
-        
-        
+        if (_movementVector == Vector3.zero) return;
+
+        float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
+        Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+
+        _rigidbody.rotation = Quaternion.Lerp(_rigidbody.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+
     }
 }
