@@ -7,38 +7,45 @@ public class PlayerModel
     private int _healthPoints;
     private float _movementSpeed;
     private float _jumpSpeed;
-    private float _rotationSpeed;
     private float _rollingSpeed;
     private float _armor;
     private float _stamina;
 
     private StateMachine _stateMachine;
     private GroundCheck _groundCheck;
+
     private Vector3 _moveVector;
+
+    private Vector3 _velocity;
+    private Quaternion _rotation;
+
+    public Vector3 Velocity => _velocity;
+    public Quaternion Rotation => _rotation;
 
     private bool IsGrounded => _groundCheck.IsGrounded();
 
     public bool IsRolling;
 
-    public PlayerModel(Rigidbody rb, Transform transform, Transform cameraTransform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel, GroundCheck groundCheck, float movementSpeed, float jumpSpeed, float rotationSpeed, float rollingSpeed)
+    public PlayerModel(Transform cameraTransform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel, GroundCheck groundCheck, float movementSpeed, float jumpSpeed, float rollingSpeed)
     {
         _groundCheck = groundCheck;
         _movementSpeed = movementSpeed;
         _jumpSpeed = jumpSpeed;
-        _rotationSpeed = rotationSpeed;
         _rollingSpeed = rollingSpeed;
 
-        InitStateMachine(rb, transform, cameraTransform, onMoveEventChannel, onJumpEventChannel);
+        _rotation = Quaternion.identity;
+
+        InitStateMachine(cameraTransform, onMoveEventChannel, onJumpEventChannel);
         onMoveEventChannel.RegisterObserver(UpdateMovement);
     }
 
-    public void InitStateMachine(Rigidbody rb, Transform transform, Transform cameraTransform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel)
+    public void InitStateMachine(Transform cameraTransform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel)
     {
-        var _idleState = new IdleState(rb, onJumpEventChannel, _jumpSpeed);
-        var _moveState = new MoveState(rb, cameraTransform, onMoveEventChannel, onJumpEventChannel, _movementSpeed, _jumpSpeed, _rotationSpeed);
-        var _jumpState = new JumpState(rb);
-        var _rollState = new RollingState(transform, rb, _rollingSpeed);
-        var _attackState = new AttackState(rb);
+        var _idleState = new IdleState(onJumpEventChannel, _jumpSpeed);
+        var _moveState = new MoveState(cameraTransform, onMoveEventChannel, onJumpEventChannel, _movementSpeed, _jumpSpeed);
+        var _jumpState = new JumpState();
+        var _rollState = new RollingState(_rollingSpeed);
+        var _attackState = new AttackState();
 
         _stateMachine = new StateMachine();
 
@@ -69,6 +76,11 @@ public class PlayerModel
     public void FixedUpdate()
     {
         _stateMachine.Tick();
+        if(_stateMachine.CurrentState is IMovementModel)
+        {
+            var state = _stateMachine.CurrentState as IMovementModel;
+            (_velocity, _rotation) = state.GetVelocityAndRotation;
+        }
     }
 
     public void SetRolling(bool value)

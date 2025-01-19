@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class AttackState : IState
 {
-    private Rigidbody _rigidbody;
-    public AttackState(Rigidbody rb)
+    public AttackState()
     {
-        _rigidbody = rb;
+        
     }
 
     public void OnEnter()

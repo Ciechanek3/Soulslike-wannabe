@@ -8,10 +8,8 @@ public class RollingState : IState
     private Rigidbody _rigidbody;
     private float _speed;
 
-    public RollingState(Transform transform, Rigidbody rb, float rollingSpeed)
+    public RollingState(float rollingSpeed)
     {
-        _transform = transform;
-        _rigidbody = rb;
         _speed = rollingSpeed;
         //damagable class
     }

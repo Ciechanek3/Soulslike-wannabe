@@ -25,8 +25,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _playerModel = new PlayerModel(rb, transform, cameraTransform, onMoveEventChannel, onJumpEventChannel, groundCheck, movementSpeed, jumpSpeed, rotationSpeed, rollingSpeed);
-        _playerView = new PlayerView(animator);
+        _playerModel = new PlayerModel(cameraTransform, onMoveEventChannel, onJumpEventChannel, groundCheck, movementSpeed, jumpSpeed, rollingSpeed);
+        _playerView = new PlayerView(rb, animator);
     }
 
     private void OnEnable()
@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         _playerModel.FixedUpdate();
+        _playerView.UpdateRotation(_playerModel.Rotation);
+        _playerView.UpdateVelocity(_playerModel.Velocity);
     }
 
     private void EnableRolling()

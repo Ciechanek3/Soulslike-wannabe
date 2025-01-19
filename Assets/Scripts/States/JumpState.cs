@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class JumpState : IState
 {
-    public JumpState(Rigidbody rb)
+    public JumpState()
     {
 
     }
+
     public void OnEnter()
     {
 
