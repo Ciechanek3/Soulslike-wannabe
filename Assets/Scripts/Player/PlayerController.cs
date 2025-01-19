@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _playerModel.SetPosition(rb.position);
         _playerModel.FixedUpdate();
         _playerView.UpdateRotation(_playerModel.Rotation);
         _playerView.UpdateVelocity(_playerModel.Velocity);
@@ -73,6 +74,13 @@ public class PlayerController : MonoBehaviour
 
     private void SetLookTarget()
     {
-        _playerModel.LockTarget = cameraController.CurrentTraget.LockTransform;
+        if(_playerModel.LockTarget == null)
+        {
+            _playerModel.LockTarget = cameraController.CurrentTraget.LockTransform;
+        }
+        else
+        {
+            _playerModel.LockTarget = null;
+        }
     }
 }

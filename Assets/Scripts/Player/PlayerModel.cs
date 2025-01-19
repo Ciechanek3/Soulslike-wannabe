@@ -21,13 +21,16 @@ public class PlayerModel
 
     public Vector3 Velocity => _velocity;
     public Quaternion Rotation => _rotation;
+    public Vector3 Position { get; private set; }
 
     private bool IsGrounded => _groundCheck.IsGrounded();
 
     public bool IsRolling;
 
     public Transform LockTarget;
+    private Vector3 _lookVector;
     private bool _isLocked => LockTarget != null;
+    
 
     public PlayerModel(Transform cameraTransform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel, GroundCheck groundCheck, float movementSpeed, float jumpSpeed, float rollingSpeed)
     {
@@ -76,6 +79,11 @@ public class PlayerModel
         Func<bool> IsCurrentlyRolling() => () => IsRolling;
     }
 
+    public void SetPosition(Vector3 position)
+    {
+        Position = position;
+    }
+
     public void FixedUpdate()
     {
         _stateMachine.Tick();
@@ -86,7 +94,9 @@ public class PlayerModel
         }
         if(_isLocked)
         {
-            _rotation = Quaternion.Euler(0, Mathf.Atan2(LockTarget.position.x, LockTarget.position.z) * Mathf.Rad2Deg, 0);
+            _lookVector = LockTarget.position - Position;
+            _lookVector.y = 0;
+            _rotation = Quaternion.LookRotation(_lookVector);
         }
     }
 

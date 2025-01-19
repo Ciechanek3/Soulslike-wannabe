@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerView
 {
     private Rigidbody _rigidbody;
-    private Transform _transform;
     private Animator _animator;
 
     private int hashRollAnim = Animator.StringToHash("Roll");
