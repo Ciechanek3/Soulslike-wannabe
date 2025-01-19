@@ -26,6 +26,9 @@ public class PlayerModel
 
     public bool IsRolling;
 
+    public Transform LockTarget;
+    private bool _isLocked => LockTarget != null;
+
     public PlayerModel(Transform cameraTransform, Vector3EventChannel onMoveEventChannel, EventChannelSO onJumpEventChannel, GroundCheck groundCheck, float movementSpeed, float jumpSpeed, float rollingSpeed)
     {
         _groundCheck = groundCheck;
@@ -80,6 +83,10 @@ public class PlayerModel
         {
             var state = _stateMachine.CurrentState as IMovementModel;
             (_velocity, _rotation) = state.GetVelocityAndRotation;
+        }
+        if(_isLocked)
+        {
+            _rotation = Quaternion.Euler(0, Mathf.Atan2(LockTarget.position.x, LockTarget.position.z) * Mathf.Rad2Deg, 0);
         }
     }
 

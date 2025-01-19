@@ -7,18 +7,21 @@ public class CameraController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform lookTarget;
-    [SerializeField] private CinemachineFreeLook cinemachine;
+    [SerializeField] private CinemachineFreeLook mainCamera;
+    [SerializeField] private CinemachineVirtualCamera lockCamera;
 
     [Header("Lock Detection Settings")]
     [SerializeField] private LayerMask layerToFind;
     [SerializeField] private float range;
     [SerializeField] private float angle;
     [SerializeField] private float dotProductThreshold;
-
+        
     [SerializeField] private EventChannelSO onLockEventChannel;
 
     private TargetLocator _lockTargetLocator;
     private ILockable _currentTarget;
+
+    public ILockable CurrentTraget => _currentTarget;
 
     private void Awake()
     {
@@ -37,9 +40,20 @@ public class CameraController : MonoBehaviour
 
     private void LockTarget()
     {
+        if(mainCamera.enabled)
+        {
+            mainCamera.enabled = false;
+            lockCamera.enabled = true;
+        }
+        else
+        {
+            lockCamera.enabled = false;
+            mainCamera.enabled = true;
+        }
+
         if (_lockTargetLocator.TryFindLockableTarget(out _currentTarget))
         {
-            cinemachine.LookAt = _currentTarget.LockTransform;
+            lockCamera.LookAt = _currentTarget.LockTransform;
         }
     }
 }

@@ -16,6 +16,8 @@ public class MoveState : IState, IMovementModel
     private Vector3 _velocity;
     private Quaternion _rotation;
 
+    private float _targetAngle;
+
     public MoveState(Transform cameraTransform, Vector3EventChannel onMoveEvent, EventChannelSO onJumpEvent, float movementSpeed, float jumpSpeed)
     {
         _movementSpeed = movementSpeed;
@@ -66,9 +68,7 @@ public class MoveState : IState, IMovementModel
 
         if (_movementVector == Vector3.zero) return;
 
-        float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
-        Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
-
-        _rotation = targetRotation;
+        _targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
+        _rotation = Quaternion.Euler(0, _targetAngle, 0);
     }
 }

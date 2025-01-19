@@ -8,11 +8,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform cameraTransform;
 
+    [Header("Controller")]
+    [SerializeField] private CameraController cameraController;
+
     [Header("Move events")]
     [SerializeField] private Vector3EventChannel onMoveEventChannel;
     [SerializeField] private EventChannelSO onJumpEventChannel;
     [SerializeField] private EventChannelSO onRollEventChannel;
     [SerializeField] private EventChannelSO onAttackEventChannel;
+    [SerializeField] private EventChannelSO onLockEventChannel;
 
     [Header("Parameters")]
     [SerializeField] private float movementSpeed = 1f;
@@ -23,6 +27,8 @@ public class PlayerController : MonoBehaviour
     private PlayerModel _playerModel;
     private PlayerView _playerView;
 
+    private Transform _lookTarget;
+
     private void Awake()
     {
         _playerModel = new PlayerModel(cameraTransform, onMoveEventChannel, onJumpEventChannel, groundCheck, movementSpeed, jumpSpeed, rollingSpeed);
@@ -32,12 +38,16 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         onRollEventChannel.RegisterObserver(EnableRolling);
+        onLockEventChannel.RegisterObserver(SetLookTarget);
     }
 
     private void OnDisable()
     {
         onRollEventChannel.UnregisterObserver(EnableRolling);
+        onLockEventChannel.UnregisterObserver(SetLookTarget);
     }
+
+
 
     private void FixedUpdate()
     {
@@ -59,5 +69,10 @@ public class PlayerController : MonoBehaviour
     {
          _playerModel.IsRolling = false;
         animator.ResetTrigger("Roll");
+    }
+
+    private void SetLookTarget()
+    {
+        _playerModel.LockTarget = cameraController.CurrentTraget.LockTransform;
     }
 }
