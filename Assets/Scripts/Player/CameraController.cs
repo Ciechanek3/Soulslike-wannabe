@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,10 @@ public class CameraController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform lookTarget;
+    [SerializeField] private CinemachineBrain cinemachineBrain;
     [SerializeField] private CinemachineFreeLook mainCamera;
     [SerializeField] private CinemachineVirtualCamera lockCamera;
+    
 
     [Header("Lock Detection Settings")]
     [SerializeField] private LayerMask layerToFind;
@@ -20,7 +23,7 @@ public class CameraController : MonoBehaviour
 
     private TargetLocator _lockTargetLocator;
     private ILockable _currentTarget;
-
+    public Action OnCameraChanged;
     public ILockable CurrentTraget => _currentTarget;
 
     private void Awake()
@@ -40,18 +43,29 @@ public class CameraController : MonoBehaviour
 
     private void LockTarget()
     {
-        if (_lockTargetLocator.TryFindLockableTarget(out _currentTarget))
-        {
-            if (mainCamera.enabled)
+            if (mainCamera.gameObject.activeInHierarchy)
             {
-                mainCamera.enabled = false;
-                lockCamera.enabled = true;
+                if(_lockTargetLocator.TryFindLockableTarget(out _currentTarget))
+                {
+                    mainCamera.gameObject.SetActive(false);
+                    lockCamera.gameObject.SetActive(true);
+                StopCoroutine(WaitForBlendToFinish(cinemachineBrain.m_DefaultBlend.BlendTime));
+                OnCameraChanged?.Invoke();
+            } 
             }
             else
             {
-                lockCamera.enabled = false;
-                mainCamera.enabled = true;
-            }
+                lockCamera.gameObject.SetActive(false);
+                mainCamera.gameObject.SetActive(true);
+                _currentTarget = null;
+            StartCoroutine(WaitForBlendToFinish(cinemachineBrain.m_DefaultBlend.BlendTime));
         }
+        
+    }
+
+    private IEnumerator WaitForBlendToFinish(float blendTime)
+    {
+        yield return new WaitForSeconds(blendTime);
+        OnCameraChanged?.Invoke();
     }
 }

@@ -38,13 +38,13 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         onRollEventChannel.RegisterObserver(EnableRolling);
-        onLockEventChannel.RegisterObserver(SetLookTarget);
+        cameraController.OnCameraChanged += SetLookTarget;
     }
 
     private void OnDisable()
     {
         onRollEventChannel.UnregisterObserver(EnableRolling);
-        onLockEventChannel.UnregisterObserver(SetLookTarget);
+        cameraController.OnCameraChanged -= SetLookTarget;
     }
 
 
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     private void EnableRolling()
     {
-        if(_playerModel.CanStartRolling())
+        if (_playerModel.CanStartRolling())
         {
             _playerModel.SetRolling(true);
             _playerView.StartRolling();
@@ -68,13 +68,13 @@ public class PlayerController : MonoBehaviour
 
     public void DisableRolling()
     {
-         _playerModel.IsRolling = false;
+        _playerModel.IsRolling = false;
         animator.ResetTrigger("Roll");
     }
 
     private void SetLookTarget()
     {
-        if(_playerModel.LockTarget == null)
+        if (_playerModel.LockTarget == null && cameraController.CurrentTraget.LockTransform != null)
         {
             _playerModel.LockTarget = cameraController.CurrentTraget.LockTransform;
         }
