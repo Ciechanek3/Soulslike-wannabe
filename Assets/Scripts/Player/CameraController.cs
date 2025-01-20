@@ -40,20 +40,18 @@ public class CameraController : MonoBehaviour
 
     private void LockTarget()
     {
-        if(mainCamera.enabled)
-        {
-            mainCamera.enabled = false;
-            lockCamera.enabled = true;
-        }
-        else
-        {
-            lockCamera.enabled = false;
-            mainCamera.enabled = true;
-        }
-
         if (_lockTargetLocator.TryFindLockableTarget(out _currentTarget))
         {
-            lockCamera.LookAt = _currentTarget.LockTransform;
+            if (mainCamera.enabled)
+            {
+                mainCamera.enabled = false;
+                lockCamera.enabled = true;
+            }
+            else
+            {
+                lockCamera.enabled = false;
+                mainCamera.enabled = true;
+            }
         }
     }
 }
