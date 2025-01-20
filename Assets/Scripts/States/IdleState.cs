@@ -13,8 +13,6 @@ public class IdleState : IState, IMovementModel
         onJumpEvent.RegisterObserver(OnJump);
     }
 
-    public (Vector3, Quaternion) GetVelocityAndRotation => (_movementVector, Quaternion.identity);
-
     public void OnEnter()
     {
         _movementVector = Vector3.zero;
@@ -33,5 +31,10 @@ public class IdleState : IState, IMovementModel
     public void Tick()
     {
 
+    }
+
+    public void GetVelocityAndRotation(ref Vector3 velocity, ref Quaternion rotation)
+    {
+        velocity = _movementVector;
     }
 }

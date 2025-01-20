@@ -90,7 +90,7 @@ public class PlayerModel
         if(_stateMachine.CurrentState is IMovementModel)
         {
             var state = _stateMachine.CurrentState as IMovementModel;
-            (_velocity, _rotation) = state.GetVelocityAndRotation;
+            state.GetVelocityAndRotation(ref _velocity, ref _rotation);
         }
         if(_isLocked)
         {

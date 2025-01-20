@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IMovementModel
 {
-    (Vector3, Quaternion) GetVelocityAndRotation { get; }
+    void GetVelocityAndRotation(ref Vector3 velocity, ref Quaternion rotation);
 }

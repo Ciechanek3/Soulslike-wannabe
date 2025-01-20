@@ -28,8 +28,6 @@ public class MoveState : IState, IMovementModel
         onJumpEvent.RegisterObserver(OnJump);
     }
 
-    public (Vector3, Quaternion) GetVelocityAndRotation => (_velocity, _rotation);
-
     public void OnEnter()
     {
         _movementVector = new Vector3(_movementVector.x, 0, _movementVector.z);
@@ -70,5 +68,11 @@ public class MoveState : IState, IMovementModel
 
         _targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
         _rotation = Quaternion.Euler(0, _targetAngle, 0);
+    }
+
+    public void GetVelocityAndRotation(ref Vector3 velocity, ref Quaternion rotation)
+    {
+        velocity = _velocity;
+        rotation = _rotation;
     }
 }
