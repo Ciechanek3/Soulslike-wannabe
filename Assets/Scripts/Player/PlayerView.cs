@@ -4,6 +4,7 @@ public class PlayerView
 {
     private Rigidbody _rigidbody;
     private Animator _animator;
+    private AnimatorController _animatorController;
 
     private int hashRollAnim = Animator.StringToHash("Roll");
 
@@ -26,5 +27,10 @@ public class PlayerView
     public void UpdateRotation(Quaternion rotation)
     {
         _rigidbody.rotation = rotation;
+    }
+
+    public void UpdateAnimation()
+    {
+       // _animatorController.UpdateAnimation()
     }
 }
