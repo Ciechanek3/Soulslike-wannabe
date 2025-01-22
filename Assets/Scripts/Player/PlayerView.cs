@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerView
 {
     private Rigidbody _rigidbody;
-    private Animator _animator;
     private AnimatorController _animatorController;
 
     private int hashRollAnim = Animator.StringToHash("Roll");
@@ -11,12 +10,12 @@ public class PlayerView
     public PlayerView(Rigidbody rigidbody, Animator animator)
     {
         _rigidbody = rigidbody;
-        _animator = animator;
+        _animatorController = new AnimatorController(animator);
     }
 
     public void StartRolling()
     {
-        _animator.SetTrigger(hashRollAnim);
+        
     }
 
     public void UpdateVelocity(Vector3 velocity)
@@ -29,8 +28,8 @@ public class PlayerView
         _rigidbody.rotation = rotation;
     }
 
-    public void UpdateAnimation()
+    public void UpdateAnimation(bool isGrounded)
     {
-       // _animatorController.UpdateAnimation()
+        _animatorController.UpdateAnimator(_rigidbody.velocity, isGrounded);
     }
 }

@@ -23,7 +23,7 @@ public class PlayerModel
     public Quaternion Rotation => _rotation;
     public Vector3 Position { get; private set; }
 
-    private bool IsGrounded => _groundCheck.IsGrounded();
+    public bool IsGrounded => _groundCheck.IsGrounded();
 
     public bool IsRolling;
 

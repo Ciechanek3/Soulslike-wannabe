@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimatorController : MonoBehaviour
+public class AnimatorController
 {
     public readonly int InputHorizontal = Animator.StringToHash("InputHorizontal");
     public readonly int InputVertical = Animator.StringToHash("InputVertical");
@@ -13,6 +13,11 @@ public class AnimatorController : MonoBehaviour
     public readonly int GroundDistance = Animator.StringToHash("GroundDistance");
 
     private Animator _animator;
+
+    public AnimatorController(Animator animator)
+    {
+        _animator = animator;
+    }
 
     public void UpdateAnimator(Vector3 moveInput, bool isGrounded)
     {

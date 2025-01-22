@@ -53,8 +53,10 @@ public class PlayerController : MonoBehaviour
     {
         _playerModel.SetPosition(rb.position);
         _playerModel.FixedUpdate();
+
         _playerView.UpdateRotation(_playerModel.Rotation);
         _playerView.UpdateVelocity(_playerModel.Velocity);
+        _playerView.UpdateAnimation(_playerModel.IsGrounded);
     }
 
     private void EnableRolling()
