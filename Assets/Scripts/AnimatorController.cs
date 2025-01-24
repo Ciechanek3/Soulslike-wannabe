@@ -21,7 +21,6 @@ public class AnimatorController
 
     public void UpdateAnimator(Vector3 moveInput, bool isGrounded)
     {
-        Debug.LogError(moveInput);
         _animator.SetFloat(InputHorizontal, moveInput.x);
         _animator.SetFloat(InputVertical, moveInput.z);
 
