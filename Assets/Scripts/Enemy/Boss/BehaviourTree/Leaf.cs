@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Leaf : Node
 {
-    [Strategy]
     public IStrategy strategy;
 
     public override Status Process() => strategy.Process();

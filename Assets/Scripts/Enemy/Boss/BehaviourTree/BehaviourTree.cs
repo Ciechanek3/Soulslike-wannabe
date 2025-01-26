@@ -5,9 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class BehaviourTree : Node
 {
-    [Strategy]
-    public string strategy;
-
     public override Status Process()
     {
         while (currentChild < children.Count)
