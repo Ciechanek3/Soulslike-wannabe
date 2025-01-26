@@ -38,24 +38,32 @@ public class ChaseStrategy : IStrategy
 }
 public class AttackStrategy : IStrategy
 {
-    private IDamagable _player;
+    private Collider _weaponCollider;
     private float _range;
     private AnimatorController _animatorController;
 
     
 
-    AttackStrategy(IDamagable player, AnimatorController animatorController, float range)
+    AttackStrategy(Collider weaponCollider, AnimatorController animatorController, float range)
     {
-        _player = player;
+        _weaponCollider = weaponCollider;
         _animatorController = animatorController;
         _range = range;
     }
 
     public Node.Status Process()
     {
-        if (_animatorController.IsAnimationFinished)
+        if(_weaponCollider.enabled == false)
         {
-            return Node.Status.Success;
+            _weaponCollider.enabled = true;
+        }
+        else
+        {
+            if (_animatorController.IsAnimationFinished)
+            {
+                _weaponCollider.enabled = false;
+                return Node.Status.Success;
+            }
         }
 
         return Node.Status.Running;
