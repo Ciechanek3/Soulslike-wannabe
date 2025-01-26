@@ -20,4 +20,13 @@ public class Node
     public virtual Status Process() => children[currentChild].Process();
 
     public void AddChild(Node child) => children.Add(child);
+
+    public virtual void Reset()
+    {
+        currentChild = 0;
+        foreach (var child in children)
+        {
+            child.Reset();
+        }
+    }
 }

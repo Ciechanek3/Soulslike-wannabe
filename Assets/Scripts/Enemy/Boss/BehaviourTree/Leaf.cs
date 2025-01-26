@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class Leaf : Node
 {
-    public IStrategy strategy;
+    private IStrategy _strategy;
 
-    public override Status Process() => strategy.Process();
+    public Leaf(IStrategy strategy)
+    {
+        _strategy = strategy;
+    }
+
+    public override Status Process() => _strategy.Process();
+
+    public override void Reset() => _strategy.Reset();
 }
