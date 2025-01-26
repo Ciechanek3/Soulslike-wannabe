@@ -3,14 +3,14 @@ using UnityEngine;
 public class PlayerView
 {
     private Rigidbody _rigidbody;
-    private AnimatorController _animatorController;
+    private PlayerAnimatorController _animatorController;
 
     private int hashRollAnim = Animator.StringToHash("Roll");
 
     public PlayerView(Rigidbody rigidbody, Animator animator)
     {
         _rigidbody = rigidbody;
-        _animatorController = new AnimatorController(animator);
+        _animatorController = new PlayerAnimatorController(animator);
     }
 
     public void StartRolling()
