@@ -1,7 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
+public class Condition : IStrategy
+{
+    private readonly Func<bool> _condition;
+
+    public Condition(Func<bool> condition)
+    {
+        _condition = condition;
+    }
+    public Node.Status Process()
+    {
+        if(_condition())
+        {
+            return Node.Status.Success;
+        }
+        else
+        {
+            return Node.Status.Failure;
+        }
+    }
+
+    public void Reset()
+    {
+        throw new System.NotImplementedException();
+    }
+}
 
 public class ChaseStrategy : IStrategy
 {
@@ -39,16 +66,14 @@ public class ChaseStrategy : IStrategy
 public class AttackStrategy : IStrategy
 {
     private Collider _weaponCollider;
-    private float _range;
     private AnimatorController _animatorController;
 
     
 
-    AttackStrategy(Collider weaponCollider, AnimatorController animatorController, float range)
+    AttackStrategy(Collider weaponCollider, AnimatorController animatorController)
     {
         _weaponCollider = weaponCollider;
         _animatorController = animatorController;
-        _range = range;
     }
 
     public Node.Status Process()

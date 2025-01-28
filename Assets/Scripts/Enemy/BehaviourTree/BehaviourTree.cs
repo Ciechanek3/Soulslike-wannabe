@@ -5,6 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class BehaviourTree : Node
 {
+
+    public BehaviourTree(int selValue = 0) : base(selValue)
+    {
+    }
+
     public override Status Process()
     {
         while (currentChild < children.Count)

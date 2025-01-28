@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Sequence : Node
 {
+    public Sequence(int selValue = 0) : base(selValue)
+    {
+    }
+
     public override Status Process()
     {
         if (children[currentChild].Process() != Status.Success)

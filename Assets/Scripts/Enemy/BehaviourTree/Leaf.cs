@@ -6,7 +6,7 @@ public class Leaf : Node
 {
     private IStrategy _strategy;
 
-    public Leaf(IStrategy strategy)
+    public Leaf(IStrategy strategy, int selValue) : base(selValue)
     {
         _strategy = strategy;
     }
