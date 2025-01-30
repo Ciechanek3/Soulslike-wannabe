@@ -25,5 +25,4 @@ public class Boss1 : Enemy
 
         _behaviourTree.AddChild(attackSequence);
     }
-
 }

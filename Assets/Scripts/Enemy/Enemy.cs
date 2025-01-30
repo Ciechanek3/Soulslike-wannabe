@@ -22,7 +22,12 @@ public abstract class Enemy : MonoBehaviour, IEnemy, ILockable, IDamagable
         _behaviourTree = new BehaviourTree();
     }
 
-    public void GetHit(int damage)
+    protected void Update()
+    {
+        _behaviourTree.Process();
+    }
+
+    public virtual void GetHit(int damage)
     {
         throw new System.NotImplementedException();
     }
