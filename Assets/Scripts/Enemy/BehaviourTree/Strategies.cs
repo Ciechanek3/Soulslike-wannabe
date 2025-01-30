@@ -70,7 +70,7 @@ public class AttackStrategy : IStrategy
 
     
 
-    AttackStrategy(Collider weaponCollider, AnimatorController animatorController)
+    public AttackStrategy(Collider weaponCollider, AnimatorController animatorController)
     {
         _weaponCollider = weaponCollider;
         _animatorController = animatorController;
