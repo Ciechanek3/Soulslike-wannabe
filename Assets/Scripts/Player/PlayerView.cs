@@ -5,7 +5,7 @@ public class PlayerView
     private Rigidbody _rigidbody;
     private PlayerAnimatorController _animatorController;
 
-    private int hashRollAnim = Animator.StringToHash("Roll");
+    
 
     public PlayerView(Rigidbody rigidbody, Animator animator)
     {

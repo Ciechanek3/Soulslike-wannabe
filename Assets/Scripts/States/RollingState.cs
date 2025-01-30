@@ -5,7 +5,6 @@ using UnityEngine;
 public class RollingState : IState
 {
     private Transform _transform;
-    private Rigidbody _rigidbody;
     private float _speed;
 
     public RollingState(float rollingSpeed)
@@ -25,6 +24,6 @@ public class RollingState : IState
 
     public void Tick()
     {
-        _rigidbody.velocity = _transform.right * _speed;
+
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDependencyProvider
 {
     [Header("References")]
     [SerializeField] private Rigidbody rb;
@@ -27,7 +27,8 @@ public class PlayerController : MonoBehaviour
     private PlayerModel _playerModel;
     private PlayerView _playerView;
 
-    private Transform _lookTarget;
+    [Register("Player")]
+    private Transform Transform => transform;
 
     private void Awake()
     {

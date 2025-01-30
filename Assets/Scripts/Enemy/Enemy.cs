@@ -1,20 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour, IEnemy, ILockable, IDamagable
+[RequireComponent(typeof(NavMeshAgent))]
+public abstract class Enemy : MonoBehaviour, IEnemy, ILockable, IDamagable
 {
-    [SerializeField] private Animator _animator;
-
-    private AnimatorController _animatorController;
-    private BehaviourTree _behaviourTree;
+    [SerializeField] protected Animator _animator;
+    
+    protected NavMeshAgent _navMeshAgent;
+    protected AnimatorController _animatorController;
+    protected BehaviourTree _behaviourTree;
+    
 
     public Transform LockTransform => transform;
 
-    private void Awake()
+    protected virtual void Awake()
     {
+        _navMeshAgent = GetComponent<NavMeshAgent>();
         _animatorController = new AnimatorController(_animator);
-
         _behaviourTree = new BehaviourTree();
     }
 

@@ -10,7 +10,7 @@ public class PlayerAnimatorController : AnimatorController
     public readonly int IsGrounded = Animator.StringToHash("IsGrounded");
     public readonly int IsStrafing = Animator.StringToHash("IsStrafing");
     public readonly int IsSprinting = Animator.StringToHash("IsSprinting");
-    public readonly int GroundDistance = Animator.StringToHash("GroundDistance");
+    public readonly int IsRoll = Animator.StringToHash("Roll");
 
     public PlayerAnimatorController(Animator animator) : base(animator)
     {
