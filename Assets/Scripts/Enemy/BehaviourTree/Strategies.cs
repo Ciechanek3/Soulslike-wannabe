@@ -36,6 +36,8 @@ public class ChaseStrategy : IStrategy
     private NavMeshAgent _agent;
     private float _range;
 
+    private bool isPathCalculated = false;
+
     public ChaseStrategy(Transform chaseTarget, NavMeshAgent agent, float range)
     {
         _chaseTarget = chaseTarget;
@@ -45,12 +47,19 @@ public class ChaseStrategy : IStrategy
 
     public Node.Status Process()
     {
+
+        if (Vector3.Distance(_agent.transform.position, _chaseTarget.position) < _range)
+        {
+            _agent.isStopped = true;
+            return Node.Status.Success;
+        }
+
         _agent.SetDestination(_chaseTarget.position);
         _agent.transform.LookAt(_chaseTarget);
 
-        if (_agent.remainingDistance < _range)
+        if (_agent.pathPending)
         {
-            return Node.Status.Success;
+            isPathCalculated = true;
         }
 
         return Node.Status.Running;
@@ -59,6 +68,7 @@ public class ChaseStrategy : IStrategy
     public void Reset()
     {
         _chaseTarget = null;
+        _agent.isStopped = false;
     }
 }
 public class AttackStrategy : IStrategy
