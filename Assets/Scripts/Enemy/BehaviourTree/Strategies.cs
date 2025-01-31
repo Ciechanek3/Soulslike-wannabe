@@ -34,21 +34,19 @@ public class ChaseStrategy : IStrategy
 {
     private Transform _chaseTarget;
     private NavMeshAgent _agent;
-    private float _movementSpeed;
     private float _range;
 
-    public ChaseStrategy(Transform chaseTarget, NavMeshAgent agent, float ms, float range)
+    public ChaseStrategy(Transform chaseTarget, NavMeshAgent agent, float range)
     {
         _chaseTarget = chaseTarget;
         _agent = agent;
-        _movementSpeed = ms;
         _range = range;
     }
 
     public Node.Status Process()
     {
         _agent.SetDestination(_chaseTarget.position);
-        _chaseTarget.transform.LookAt(_chaseTarget);
+        _agent.transform.LookAt(_chaseTarget);
 
         if (_agent.remainingDistance < _range)
         {
@@ -78,7 +76,7 @@ public class AttackStrategy : IStrategy
 
     public Node.Status Process()
     {
-        if(_weaponCollider.enabled == false)
+        /*if(_weaponCollider.enabled == false)
         {
             _weaponCollider.enabled = true;
         }
@@ -89,7 +87,7 @@ public class AttackStrategy : IStrategy
                 _weaponCollider.enabled = false;
                 return Node.Status.Success;
             }
-        }
+        }*/
 
         return Node.Status.Running;
     }

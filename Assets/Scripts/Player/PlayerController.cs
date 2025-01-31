@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour, IDependencyProvider
     [SerializeField] private Animator animator;
     [SerializeField] private Transform cameraTransform;
 
+    [Register("Player")]
+    [SerializeField] private Transform playerModelTransform;
+
     [Header("Controller")]
     [SerializeField] private CameraController cameraController;
 
@@ -27,8 +30,6 @@ public class PlayerController : MonoBehaviour, IDependencyProvider
     private PlayerModel _playerModel;
     private PlayerView _playerView;
 
-    [Register("Player")]
-    private Transform Transform => transform;
 
     private void Awake()
     {

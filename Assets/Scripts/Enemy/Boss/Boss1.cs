@@ -7,7 +7,6 @@ public class Boss1 : Enemy
     [Inject("Player")]
     private Transform _player;
 
-    [SerializeField] private float movementSpeed;
     [SerializeField] private float range;
     [SerializeField] private Collider weaponCollider;
 
@@ -17,7 +16,7 @@ public class Boss1 : Enemy
 
         Debug.LogError(_player.gameObject.name);
 
-        var chasePlayer = new Leaf(new ChaseStrategy(_player, _navMeshAgent, movementSpeed, range));
+        var chasePlayer = new Leaf(new ChaseStrategy(_player, _navMeshAgent, range));
         var attackPlayer = new Leaf(new AttackStrategy(weaponCollider, _animatorController));
         var attackSequence = new Sequence();
         attackSequence.AddChild(chasePlayer);

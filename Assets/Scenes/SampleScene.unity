@@ -415,6 +415,7 @@ GameObject:
   - component: {fileID: 509597771}
   - component: {fileID: 509597776}
   - component: {fileID: 509597777}
+  - component: {fileID: 509597778}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -543,6 +544,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
+  range: 10
+  weaponCollider: {fileID: 0}
+--- !u!54 &509597778
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509597770}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &581616430
 GameObject:
   m_ObjectHideFlags: 3
@@ -950,6 +980,11 @@ MonoBehaviour:
   angle: 300
   dotProductThreshold: 0
   onLockEventChannel: {fileID: 11400000, guid: 69a53d0c03edf66459c99cadad448f22, type: 2}
+--- !u!4 &1041547845 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8498924590552282196, guid: 4a20f17499d92394d9e5206dc081d53a, type: 3}
+  m_PrefabInstance: {fileID: 5041398592342201244}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1066824052
 GameObject:
   m_ObjectHideFlags: 0
@@ -1734,9 +1769,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 963194228}
     - target: {fileID: 5107875515221828256, guid: 4a20f17499d92394d9e5206dc081d53a, type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 475730874}
+    - target: {fileID: 5107875515221828256, guid: 4a20f17499d92394d9e5206dc081d53a, type: 3}
       propertyPath: cameraController
       value: 
       objectReference: {fileID: 963194236}
+    - target: {fileID: 5107875515221828256, guid: 4a20f17499d92394d9e5206dc081d53a, type: 3}
+      propertyPath: playerModelTransform
+      value: 
+      objectReference: {fileID: 1041547845}
     - target: {fileID: 7187577365734920104, guid: 4a20f17499d92394d9e5206dc081d53a, type: 3}
       propertyPath: m_Name
       value: Player
