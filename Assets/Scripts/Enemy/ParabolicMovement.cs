@@ -34,14 +34,19 @@ public class ParabolicMovement : MonoBehaviour
             }
             else
             {
-                ShouldMove = false;
+                FinishMove();
             }
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void FinishMove()
     {
         ShouldMove = false;
         progress = 0;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        FinishMove();
     }
 }
